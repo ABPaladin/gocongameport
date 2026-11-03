@@ -1,0 +1,775 @@
+{
+  "languages": [
+    "English",
+    "Romanian",
+    "Russian"
+  ],
+  "msg": {
+    "What the heck is this place? \nI must get back to Kamurocho immediately! \nThis is a waste of baka mi time!": {
+      "Romanian": "Ce naiba este locul ăsta? \nTrebuie să mă întorc imediat la Kamurocho! \nAsta e o baka mi pierdere de timp!",
+      "Russian": "Что это за место, черт возьми? \nЯ должен немедленно вернуться в Камурочо! \nЭто пустая трата времени бака митай!"
+    },
+    "This is mediacor, dame dame guy!": {
+      "Russian": "Это медиакор, даме даме!",
+      "Romanian": "Acesta e mediacor, tipule dame dame!"
+    },
+    "Hello there!\nWanna test your skills?": {
+      "Russian": "Ну привет! Хочешь проверить свои умения?",
+      "Romanian": "Salut! Vrei să-ți încerci aptitudinile?"
+    },
+    "Heck yeah!": {
+      "Russian": "Да, черт возьми!",
+      "Romanian": "Oh, da!"
+    },
+    "Approach the weird device beside me!": {
+      "Russian": "Подойди к странному девайсу рядом со мной!",
+      "Romanian": "Apropie-te de dispozitivul ăsta ciudat de lângă mine!"
+    },
+    "BIG TITAN": {
+      "Russian": "БОЛЬШОЙ ТИТАН",
+      "Romanian": "TITAN MARE"
+    },
+    "Mini games are closed, \nfor now come back later!": {
+      "Russian": "Мини-игры пока что закрыты, приходи позже!",
+      "Romanian": "Mini-jocurile sunt închise, apropie-te mai târziu!"
+    },
+    "sad :( okey": {
+      "Russian": "Печалька :( Окей",
+      "Romanian": "păcat :( okey"
+    },
+    "Too busy doing nothing.\n\\n<Slava> ": {
+      "Russian": "Слишком занят ничегонеделанием. \\n<Слава>",
+      "Romanian": "Sunt prea ocupat facând nimic."
+    },
+    "Hi! The name's Eva! Nice to meet you!\nAnswer my cosplay trivia to get a stamp!\n\\n<Eva> ": {
+      "Russian": "Привет! Меня зовут Ева! Приятно \nпознакомиться! \nПройди мою викторину по косплею,\nчтобы получить штамп! \\n<Ева>",
+      "Romanian": "Salut! Mă cheamă Eva! Încântată de cunoștință!\nRăspunde la întrebările mele de cosplay \npentru o ștampilă!"
+    },
+    "What's the name of the heated and molded\nmaterial, often used to make \ncosplay armor and weapons?\n\\n<Eva> ": {
+      "Russian": "Как называется термоформуемый материал,\nчасто использующийся для\nсоздания брони и оружия для косплея? \\n<Ева>",
+      "Romanian": "Cum se numește materialul folosit deseori\nîn crearea armurelor și armelor, care este\nușor de încălzit și modelat?"
+    },
+    "Correct! Take your stamp!\n\\n<Eva> ": {
+      "Russian": "Верно! Держи свой штамп! \\n<Ева>",
+      "Romanian": "Corect! Poftim Ștampila! \\n<Eva>"
+    },
+    "You got your stamp. Go to other people\n\\n<Eva> ": {
+      "Russian": "У тебя уже есть штамп. Иди к другим людям \\n<Ева>",
+      "Romanian": "Deja ai ștampila de la mine. Du-te la alți oameni \\n<Eva>"
+    },
+    "Party's here!\n\\n<Nick>": {
+      "Russian": "Вечеринка началась! \\n<Ник>",
+      "Romanian": "Petrecerea s-a început! \\n<Ник>"
+    },
+    "I like cherries~\n\\n<Rei>": {
+      "Russian": "Мне нравится вишня~ \\n<Рей>",
+      "Romanian": "Îmi plac cireșele~ \\n<Рей>"
+    },
+    "My kink? Knowing all the information~\n\\n<Irina> ": {
+      "Russian": "Мой кинк? Знать всю информацию~ \\n<Ирина>",
+      "Romanian": "Kink-ul meu? Să știu toată informația~ \\n<Ирина>"
+    },
+    "Ooo, kinky~\n\\n<Valenti>": {
+      "Russian": "Ооо, как скандально~ \\n<Валенти>",
+      "Romanian": "Ооо, kinky~ \\n<Валенти>"
+    },
+    "You don't have enough stamps": {
+      "Russian": "У тебя недостаточно штампов",
+      "Romanian": "Nu ai destule ștampile"
+    },
+    "Want to buy something!": {
+      "Romanian": "Vreau să cumpăr ceva!",
+      "Russian": "Хочу купить что нибудь"
+    },
+    "Hello!\n\\n<???> ": {
+      "Russian": "Привет! \\n<???>",
+      "Romanian": "Salut! \\n<???>"
+    },
+    "Welcome to GoCon <Game>! \n \nYour objective is to collect all 6 stamps \nfrom various people at the convention! ": {
+      "Russian": "Добро пожаловать в GoCon <Game>! \n\nТвоя цель - собрать все 6 штампов\nот разных людей на фестивале!",
+      "Romanian": "Bun venit la GoCon <Game>! \n\nȚelul tău - să strângi toate cele 6 șțampile\nde la diferiți oameni de la festival!"
+    },
+    "Once you have them all, redeem them at \nthe Gachapon machine at Hall 1! \n \nHope you enjoy and happy exploration!": {
+      "Russian": "Как получишь их все, обменяй их у\nгачапон машины в Холле 1!\n\nНадеемся, что тебе понравится! Приятной игры!",
+      "Romanian": "Cum le primești pe toate, le poți\nschimba la GachaPon în Sala 1!\n\nSperăm că îți va plăcea și explorare plăcută!"
+    },
+    "Uwaa!! I dropped my wallet! Now I can't buy\nanything at the Art Zone!": {
+      "Russian": "Уваа! Я потерял свой кошелек! Теперь я не\nмогу ничего купить в Арт зоне!",
+      "Romanian": "Uwaa!! Mi-am scăpat portofelul! Acum nu pot\nsă cumpăr nimic din Art Zonă!"
+    },
+    "Welcome to the event! I hope you enjoy your stay here!": {
+      "Russian": "Добро пожаловать на ивент! Надеюсь, тебе тут\nпонравится!",
+      "Romanian": "Bine ai venit la eveniment! Sperăm că îți \nv-a plăcea aici!"
+    },
+    "Gadzooks! I've never seen so many different characters \nin one place!": {
+      "Russian": "Батюшки! Я никогда не видела так \nмного персонажей в одном месте!",
+      "Romanian": "Doamne! Niciodată nu am văzut \natâtea personaje la un loc!"
+    },
+    "BIG TITAN!!": {
+      "Russian": "БОЛЬШОЙ ТИТАН!",
+      "Romanian": "TITAN MARE!"
+    },
+    "Eeeee! So soft! \nYou’re like a giant walking pillow! \nAre you here to enjoy the fest too?": {
+      "Russian": "Иииии! Такой мягкий!\nТы прямо большая ходячая подушка!\nТы тоже здесь, чтобы насладиться \nпраздником?",
+      "Romanian": "Eeeee! Ce moale! \nParcă ești o pernă umblătoare!\nTu tot ești aici să te bucuri \nde festival?"
+    },
+    "Hrmmm... Fest... Good.": {
+      "Russian": "Хрммм... Праздник... Хороший.",
+      "Romanian": "Hmmmm... Festivalul... Bun."
+    },
+    "Hello! What would you like to buy?": {
+      "Russian": "Привет! Желаешь что-то купить?",
+      "Romanian": "Salut! Ce ai vrea să cumperi?"
+    },
+    "Mini games are closed for now, \nplease come back later!": {
+      "Russian": "Мини игры сейчас закрыты,\nпожалуйста, приходи позже!",
+      "Romanian": "Mini-jocurile sunt închise\n acum, te rog, vino mai târziu!"
+    },
+    "Oh... okay.\n\n\n[collect at least one stamp to proceed]": {
+      "Russian": "Ох... хорошо.\n\n[получи хотя бы один штамп,\nчтобы пройти]",
+      "Romanian": "Oh... bine.\n\n[strânge măcar o ștampilă,\npentru a continua]"
+    },
+    "Goin' for a ciggy, mate.": {
+      "Russian": "Вышел за сигой, приятель.",
+      "Romanian": "Am ieșit la o lulea, frate."
+    },
+    "Smoking.": {
+      "Russian": "Курим.",
+      "Romanian": "Fumăm."
+    },
+    "I've been saving up all year for this!\nTime to get that limited edition figure!": {
+      "Russian": "Я весь год ради этого копила!\nВремя получить эту лимитированную\nфигурку!",
+      "Romanian": "Tot anul pentru asta am economisit!\nTimpul să-mi iau acea figurină\nlimitată!"
+    },
+    "Let's go to the canteen!\n\\n<Asya> ": {
+      "Russian": "Пошли в столовую! \\n<Ася>",
+      "Romanian": "Să mergem la cantină! \\n<Аsya>"
+    },
+    "I'm going to buy a few prints to decorate my room!\nI wonder if I can find any Umineko merch around...": {
+      "Russian": "Я собираюсь купить пару принтов, чтобы украсить\nсвою комнату! Интересно, смогу ли я найти здесь\nкакой-нибудь мерч по Чайкам...",
+      "Romanian": "Am de gând să cumpăr câteva imprimeuri pentru \na-mi decora camera! Mă întreb dacă pot găsi vreo \nmarfă Umineko..."
+    },
+    "Interested in some merch?": {
+      "Russian": "Заинтересовал какой-нибудь мерч?",
+      "Romanian": "Te intererează ceva marfă?"
+    },
+    "Hi, I'm Kaim!\n\\n<Kaim> ": {
+      "Russian": "Привет, я Каим! \\n<Каим>",
+      "Romanian": "Salut, eu sunt Kaim! \\n<Kaim>"
+    },
+    "Answer my trivia, and you will \nreceive a stamp! \nNow tell me,\nwhen did BTS make their debut?": {
+      "Russian": "Ответь на мою викторину, и\nполучишь штамп!\nСкажи-ка мне,\nкогда состоялся дебют BTS?",
+      "Romanian": "Răspunde-mi la întrebare, și\nvei primi o ștampilă!\nSpune-mi,\ncând a fost debutul lui BTS?"
+    },
+    "Try again!\n\\n<Kaim> ": {
+      "Russian": "Попробуй снова! \\n<Каим>",
+      "Romanian": "Încearcă din nou! \\n<Kaim>"
+    },
+    "Correct, here's your stamp!\n\\n<Kaim> ": {
+      "Russian": "Верно, вот твой штамп! \\n<Каим>",
+      "Romanian": "Corect, poftim ștampila! \\n<Kaim>"
+    },
+    "You got your stemp. Go to other people\n\\n<Kaim> ": {
+      "Russian": "У тебя уже есть штамп. Иди к другим \\n<Каим>",
+      "Romanian": "Deja ai o ștampilă. Mai du-te la alți oameni \\n<Kaim>"
+    },
+    "Pupsik~\n\\n<Sanea> ": {
+      "Russian": "Пупсик~ \\n<Саня>",
+      "Romanian": "Pupsik~ \\n<Sanea>"
+    },
+    "We can't let you into the canteen,\nwe are working here!": {
+      "Russian": "Мы не можем пустить тебя в столовую,\nмы тут работаем!",
+      "Romanian": "Nu putem să-ți dăm voie în cantină,\nnoi aici lucrăm!"
+    },
+    "HOW DID YOU GET HERE? I'M CALLING SECURITY!": {
+      "Russian": "КАК ТЫ СЮДА ПОПАЛА? Я ЗОВУ ОХРАНУ!",
+      "Romanian": "CUM AI NIMERIT AICI? CHEM POLIȚIA!"
+    },
+    " *   HI, I'M JUST A FLOWER!": {
+      "Russian": "* ПРИВЕТ, Я ПРОСТО ЦВЕТОК!",
+      "Romanian": "* SALUT, SUNT DOAR O FLOARE!"
+    },
+    "Aww, I broke another plate..!\nWe've got trouble!!": {
+      "Russian": "Оуу, я разбила еще одну тарелку..!\nУ нас проблемы!!",
+      "Romanian": "Aww, am spart încă o farfurie..!\nO sa avem probleme!!"
+    },
+    "I feel so Kiwami!! That's Japanese for \"extreme\"!": {
+      "Russian": "Я чувствую себя такой кивами!\nЭто с японского означает \"экстримальный\"!",
+      "Romanian": "Mă simt așa de Kiwami!\nAsta în japoneză înseamnă \"extrem\"!"
+    },
+    "I'm not sure what to order. \nDo you have any recommendations?": {
+      "Russian": "Я не уверена что заказать.\nУ тебя есть какие-нибудь рекомендации?",
+      "Romanian": "Nici nu știu ce să spun.\nAi cumva ceva recomandări?"
+    },
+    "Hello and welcome to our Maid Cafe! ": {
+      "Russian": "Привет и добро пожаловать в наше Мейд кафе!",
+      "Romanian": "Salutare și bine ați venit la Maid Cafe!"
+    },
+    "Welcome to the Maid Cafe-nyaa!~": {
+      "Russian": "Добро пожаловать в Мейд кафе-няя!~",
+      "Romanian": "Bine ați venit la Maid Cafe-nyaa!~"
+    },
+    "COOL POSTER! Looks like me!": {
+      "Russian": "КРУТОЙ ПОСТЕР! Похоже на меня!",
+      "Romanian": "CE POSTER MIȘTO! Arată ca mine!"
+    },
+    "You don't have enough stamps.": {
+      "Russian": "У тебя недостаточно штампов.",
+      "Romanian": "Nu ai destule ștampile"
+    },
+    "Everyday means everyday!": {
+      "Russian": "Каждый день значит каждый день!",
+      "Romanian": "Fiecare zi înseamnă fiecare zi!"
+    },
+    "I w-wish I had the courage to cosplay...\nB-but I'm too shy...": {
+      "Russian": "В-вот бы мне хватило смелости на косплей...\nН-но я слишком стеснительный...",
+      "Romanian": "Ar f-fi grozav să încerc și eu cosplay...\nD-dar mi-e prea rușine..."
+    },
+    "Good guess, but nope! Try again!\n\\n<Eva> ": {
+      "Russian": "Неплохая попытка, но нет!\nПопробуй еще раз! \\n<Ева>",
+      "Romanian": "Bună ghicire, dar nu! Încearcă din nou! \\n<Еva>"
+    },
+    "I don't think you can mold that \nvery easily... try again!\n\\n<Eva> ": {
+      "Russian": "Не думаю, что ты можешь его\nтак легко сплавить... Попробуй\nснова! \\n<Ева>",
+      "Romanian": "Nu cred că poți modela prea bine cu asta...\nÎncearcă din nou! \\n<Eva>"
+    },
+    "Awooga! I'm so impressed by the attention \nto detail in their costumes!": {
+      "Russian": "Авуга! Меня так впечатлило это внимание\nк деталям в этих костюмах!",
+      "Romanian": "Awooga! Toate detaliile din costumul \năsta mă impresionează atât de mult!"
+    },
+    "I CAN'T WAIT TO GET AUTOGRAPHS FROM MY FAVORITE\nCOSPLAYERS GRAHH!!!!!": {
+      "Russian": "НЕ МОГУ ДОЖДАТЬСЯ КОГДА ПОЛУЧУ АВТОГРФЫ\nМОИХ ЛЮБИМЫХ КОСПЛЕЕРОВ ААРГХ!!!!!",
+      "Romanian": "N-AM RĂBDARE SĂ PRIMESC AUTOGRAFE DE LA\nCOSPLAYER-II MEI PREFERAȚI GRAHH!!!!!"
+    },
+    "Slay!": {
+      "Russian": "Блеск!",
+      "Romanian": "Slay!"
+    },
+    "Man, I hate drawing backgrounds. \nHuh? What do you mean I drew this background?  \nNo, I didn't...": {
+      "Russian": "Блин, я ненавижу рисовать фоны.\nА? В каком это смысле \"я нарисовала этот фон\"?\nНеа, неправда...",
+      "Romanian": "Fir-ar, urăsc să desenez fundaluri\nA? Adică eu \"am desenat acest fundal\"?\nNope, nu e adevărat..."
+    },
+    "Hi, name's KornDuck! \nI love space pirates and creating character designs.": {
+      "Russian": "Привет, я KornDuck!\nЯ люблю космических пиратов и\nсоздавать дизайны персонажей.",
+      "Romanian": "Salut, eu sunt KornDuck!\nîmi plac pirați spațiali și\nsă creez design-uri de personaje."
+    },
+    "Don't chippi my chappa choice, otherwise \nyou will meet the dubi dubi daba daba!": {
+      "Russian": "Не чипи мою чапу, иначе ты столкнешься\nс дуби дуби даба даба!",
+      "Romanian": "Nu-mi chipi chapa-ul meu ori o să-l vezi pe\ndubi dubi daba daba!"
+    },
+    "What the Dame Da heck is this place? \nI must get back to Kamurocho in\nBaka mi Time!": {
+      "Russian": "Что за Даме Да с этим местом?\nЯ должен вернуться в Камурочо\nкак можно быстрее!",
+      "Romanian": "Ce de-a Dame Da dracului e locul ăsta?\nTrebuie să ajung înapoi în Kamurocho\nla Baka mi Timp!"
+    },
+    "This is Gocon, Dame Dame Guy!": {
+      "Russian": "Это Гокон, Даме Даме чел!",
+      "Romanian": "Ăsta-i Gocon, Dame Dame Guy!"
+    },
+    "You see that big machine to the left? That's where\nI'm gonna redeem my tickets for the Kiki-chan prize!": {
+      "Russian": "Ты уже видела большую машину слева?\nТам я собираюсь обменять мои билеты на\nплюшевую Кики-чан!",
+      "Romanian": "Vezi mașinăria cea mare din stânga?\nIată acolo îmi voi primi Kiki-chan\ncu ajutorul ștampilelor mele!"
+    },
+    "I love supporting indie artists,\nthey have such unique styles!": {
+      "Russian": "Я люблю поддерживать инди-художников,\nу них такой уникальный стиль!",
+      "Romanian": "Iubesc să susțin artiști indie,\nei au așa stiluri unice!"
+    },
+    "Man, I ought to pick up a pencil again,\nthey look like they're having so much fun!": {
+      "Russian": "Черт, я должна снова взять в руки карандаш,\nони выглядят так, будто им супер весело!",
+      "Romanian": "Fir-ar, trebuie să mă apuc iar de desenat,\nei par să se distreze bine acolo!"
+    },
+    "I'm so glad I decided to visit this marketplace!\nI found so many unique items!": {
+      "Russian": "Я так рад, что решил посетить этот маркет!\nЯ нашел столько уникальных вещей!",
+      "Romanian": "Ce bine că am decis să vin la acest iarmaroc!\nAm găsit atât de multe chestii unice!"
+    },
+    "No One is Born Into This World to Be Alone\n\\n<Gaon>": {
+      "Russian": "Никто Не Рождался На Этот Свет Чтобы Быть Один \\n<Гаон>",
+      "Romanian": "Nimeni Nu S-a Născut În Această Lume Pentru A Fi Singur \\n<Gaon>"
+    },
+    "I'm not crazy, my reality is just different from yours!\n\\n<Lu Kenar>": {
+      "Russian": "Я не сумасшедшая, просто моя реальность\nотличается от твоей! \\n<Лу Кенар>",
+      "Romanian": "Eu nu sunt nebună, pur și simplu realitatea\nmea se diferă de a ta! \\n<Lu Kenar>"
+    },
+    "Buy something, will ya!": {
+      "Russian": "Купи что-нибудь, окей?",
+      "Romanian": "Cumpără ceva, bine?"
+    },
+    "Handcrafted with love and care!\nIt's the perfect gift for any occasion!": {
+      "Russian": "Сделано вручную с любовью и заботой!\nЭто идеальный подарок по любому поводу!",
+      "Romanian": "Făcut de mână cu dragoste și grijă!\nEste cadoul perfect pentru orice ocazie!"
+    },
+    "Don't miss out on this amazing deal!": {
+      "Russian": "Не упускай такое хорошее предложение!",
+      "Romanian": "Nu rata această ofertă minunată!!"
+    },
+    "My work is made from the highest quality stuff\nout there!": {
+      "Russian": "Мои работы сделаны из материалов высочайшего\nкачества!",
+      "Romanian": "Lucrările mele sunt efectuate din cele mai calitative\nmateriale!"
+    },
+    "I wanna buy something.": {
+      "Russian": "Я хочу купить что-нибудь.",
+      "Romanian": "Vreau să cumpăr ceva."
+    },
+    "These handmade crafts are amazing!\nI love supporting local artisans!": {
+      "Russian": "Эти поделки ручной работы великолепны!\nЯ люблю поддерживать местных производителей!",
+      "Romanian": "Aceste produse făcute de mână sunt superbe!\nIubesc să susțin meșteșugari locali!"
+    },
+    "Curious about my craft?": {
+      "Russian": "Заинтересовали мои поделки?",
+      "Romanian": "V-ar interesa produsele mele?"
+    },
+    "Aw man, this place is great!": {
+      "Russian": "О, это место просто отличное!",
+      "Romanian": "O, frate, locul asta e minunat!"
+    },
+    "Looking for anything that suits your fancy?": {
+      "Russian": "Ищете что-нибудь, что подойдет вашему\nвкусу?",
+      "Romanian": "Cauți ceva care te-ar interesa, \ncumva?"
+    },
+    "I've spent all my daily budget, looks like\nI'll have to give them a visit tomorrow!\nMaybe they're going to have something new in stock, too!": {
+      "Russian": "Я потратила весь свой бюджет на сегодня,\nпохоже, что мне придется посетить их и\nзавтра! Может, у них появится что-то\nновое на продажу!",
+      "Romanian": "Mi-am cheltuit tot bugetul zilnic,\nse vede că o să trebuiască să vin mâine!\nProbabil vor apărea ceva produse noi în stoc \npână atunci!"
+    },
+    "Mini-games are now in full swing!\nCome right in!": {
+      "Russian": "Мини-игры сейчас в самом разгаре!\nЗаходи!",
+      "Romanian": "Mini-jocurile sunt acum în toi!\nIntră!"
+    },
+    "Man... I wanna go do other things, but no one's \naround to look for my stand!": {
+      "Russian": "Блин... Я хочу заняться чем-нибудь другим,\nно никого нет рядом, чтобы присмотреть\nза моим стендом!",
+      "Romanian": "Frate...vreau să merg să mai fac alte chestii,\ndar nu-i nimeni aproape să stea\nla stand-ul meu!"
+    },
+    "Welcome to my knick knack shack!": {
+      "Russian": "Добро пожаловать в мою безделушечну!",
+      "Romanian": "Bine ai venit la bibelourile mele!"
+    },
+    "Buy somethin', will ya!": {
+      "Russian": "Купи что-нибудь, ладно?",
+      "Romanian": "Vino și cumpără ceva!"
+    },
+    "KISS!": {
+      "Russian": "ЧМОК",
+      "Romanian": "AMAR!"
+    },
+    "Press the up (↑) at the right time!\n\nAre you ready?": {
+      "Russian": "Жми кнопку вверх (↑) в нужное время! \n\nТы готова?",
+      "Romanian": "Apasă săgeata în sus (↑) la timpul potrivit! \n\nEști gata?"
+    },
+    "Arrite, get outta here then!": {
+      "Russian": "Ладненько, тогда убирайся атседа!",
+      "Romanian": "Bine, hai pleacă, dar atunci!"
+    },
+    "Let's GOOOOO!!": {
+      "Russian": "ВПЕРЕЕЕЕЕД!!",
+      "Romanian": "SĂ MERGEEEEEM!!"
+    },
+    "Nice!\nTake this, you deserve it!\n\n[you received a stamp]": {
+      "Russian": "Отлично!\nЗабирай, ты заслужила!\n\n[ты получила штамп]",
+      "Romanian": "Perfect!\nPoftim, ia-o, ai meritat!\n\n[ai primit o ștampilă]"
+    },
+    "Chill dude, you have alreedy received your stamp, haha!": {
+      "Russian": "Чел, расслабься, у тебя уже есть штамп, хаха!",
+      "Romanian": "Oprește-te mă, că ți-am dat deja ștampila, haha!"
+    },
+    "Hey! Wanna play Rock Paper Scissors?\n\\n<Alucardia> ": {
+      "Russian": "Хей! Хочешь сыграть в\n\"Камень, ножницы, бумага\"? \\n<Алукардия>",
+      "Romanian": "Hei! Vrei să jucăm \n\"piatră hârtie foarfecă\"? \\n<Alucardia>"
+    },
+    "I chose scissors!": {
+      "Russian": "Я выбираю ножницы!",
+      "Romanian": "Eu am ales foarfeca!"
+    },
+    "I chose rock! You lose!": {
+      "Russian": "Я выбираю камень! Ты проиграла!",
+      "Romanian": "Eu am ales piatra! Ai pierdut!"
+    },
+    "You chose paper!": {
+      "Russian": "Я выбираю бумагу!",
+      "Romanian": "Eu am ales hârtia"
+    },
+    "I chose rock! You win!\nHere's your stamp!": {
+      "Russian": "Я выбираю камень! Ты выиграла!\nДержи свой штамп!",
+      "Romanian": "Eu am ales piatra! Tu ai câștigat!\nPoftim ștampila!"
+    },
+    "You've already received a stamp from here!": {
+      "Russian": "Ты уже получила свой штамп здесь!",
+      "Romanian": "Tu deja ai primit o ștampilă de aici"
+    },
+    "Welcome to Koi Koi game! In order to win,\nhit the target using koi fish-shaped projectiles!\n\\n<Dima>": {
+      "Russian": "Добро пожаловать в игру Кои Кои!\nЧтобы выиграть, попади по мишени,\nуспользуя снаряды в виде рыбок кои! \\n<Дима>",
+      "Romanian": "Bine ai venit la jocul Koi Koi!\nLovește ținta folosind proiectile \nîn formă de pește koi! \\n<Dima>"
+    },
+    "Wanna play?\n\\n<Dima>": {
+      "Russian": "Хочешь сыграть? \\n<Дима>",
+      "Romanian": "Deci, vrei să joci?\\n<Dima>"
+    },
+    "Oh ok, come later!\n\\n<Dima>": {
+      "Russian": "Ох, окей, заходи позже! \\n<Дима>",
+      "Romanian": "Bine atunci, vin-o în curând!\\n<Dima>"
+    },
+    "Lets go!\n\\n<Dima>": {
+      "Russian": "Вперед! \\n<Дима>",
+      "Romanian": "Haide!\\n<Dima>"
+    },
+    "Start Minigame?": {
+      "Russian": "Начать мини-игру?",
+      "Romanian": "Incepeți mini-jocul?"
+    },
+    "You win! Take your stamp and go to next destination!": {
+      "Russian": "Ты выиграла! Держи штамп и иди к\nследующему месту",
+      "Romanian": "Ai câștigat! Poftim ștampila și \ncătre următoarea destinație!"
+    },
+    "You've already received your stamp!": {
+      "Russian": "Ты уже получила свой штамп!",
+      "Romanian": "Tu deja ai primit ștampila!"
+    },
+    "HI IM JUST A FLOWER": {
+      "Russian": "* ПРИВЕТ, Я ПРОСТО ЦВЕТОК!",
+      "Romanian": "* SALUT, EU SUNT DOAR \n* O FLORICICĂ!"
+    },
+    "I chose rock!": {
+      "Russian": "Я выбираю камень!",
+      "Romanian": "Eu am ales piatra!"
+    },
+    "I chose paper! You lose!": {
+      "Russian": "Я выбираю бумагу! Ты проиграла!",
+      "Romanian": "Eu am ales hârtia! Ai pierdut!"
+    },
+    "I chose rock! It's a tie!": {
+      "Russian": "Я выбираю камень! Ничья!",
+      "Romanian": "Eu am ales piatra! Egalitate!"
+    },
+    "I chose scissors! You win! \nHere's your stamp!": {
+      "Russian": "Я выбираю ножницы! Ты выиграла!\nДержи свой штамп!",
+      "Romanian": "Eu am ales foarfeca! Tu ai câștigat!\nPoftim ștampila!"
+    },
+    "I chose scissors! You lose!": {
+      "Russian": "Я выбираю ножницы! Ты проиграла!",
+      "Romanian": "Eu am ales foarfeca! Ai pierdut!"
+    },
+    "I chose paper! You win! Take a stamp": {
+      "Russian": "Я выбираю бумагу! Ты выиграла!\nДержи свой штамп!",
+      "Romanian": "Eu am ales hârtia! Tu ai câștigat!\nPoftim ștampila!"
+    },
+    "I chose scissors! It's a tie!": {
+      "Russian": "Я выбираю ножницы! Ничья!",
+      "Romanian": "Am ales foarfece! Egalitate!"
+    },
+    "I chose paper! It's a tie!": {
+      "Russian": "Я выбираю бумагу! Ничья!",
+      "Romanian": "Am ales hârtia! Egalitate!"
+    },
+    "Try better dude.": {
+      "Russian": "Старайся лучше чел.",
+      "Romanian": "Încearcă încă odată, fra."
+    },
+    "Me and my friend got here early to prepare \nfor a double date! Would you like to joing us?": {
+      "Russian": "Я и моя подруга пришли пораньше, чтобы\nподготовиться к двойному свиданию.\nХочешь присоединитсья?",
+      "Romanian": "Eu și prietena mea am ajuns mai devreme aici \npentru o întâlnire dublă!\nVrei cu noi oare?"
+    },
+    "Ohmigosh, your cosplay's so pretty!\nWanna take a seat with us?~": {
+      "Russian": "Омойбох, твой косплей такой симпатичный!\nХочешь сесть рядом с нами?~",
+      "Romanian": "Odoamne -- cosplay-ul tău e superb! \nVrei să stai lângă noi?~"
+    },
+    "When do I get to cast Fireball on bystanders?": {
+      "Russian": "Когда я смогу наконец-то закастовать\nогненный шар на прохожих?",
+      "Romanian": "Când va fi timpul să arunc fireball-uri\nîn fața trecătorulor?"
+    },
+    "Man I sure love D&D! I prepared all week to make\nmy character! Check it out, he's a human fighter\nwhose objective is to get revenge on his best friend!": {
+      "Russian": "Как же я люблю D&D! Я всю неделю готовил\nсвоего персонажа! Зацени, это человек воин,\nцель которого - отомстить за своего лучшего\nдруга!",
+      "Romanian": "Oh ce iubesc D&D! M-am gătit săptămâna toată\npentru personaj! Iată-l! Acest om râzboinic are un singur scop,\nsă se răzbune pe cel mai bun al său prieten! "
+    },
+    "Your journey takes you to the Great Mountains...\nOh, it seems a traveler from far away has come \nto visit! Greetings!": {
+      "Russian": "Ваше путешествие завело вас на Великие\nГоры... О, похоже, к нам пожаловала\nпутешественница издалека! Приветствую!",
+      "Romanian": "Aventura voastră vă duce în Marii Munți...\nCe avem noi aici...văd că poposește încă cineva!\nSalutări, aventuriere din depărtări!"
+    },
+    "So like... does he wear that green hat to show\nthat he's the Dungeon Master or something?\nIt looks so silly, like he put a bowl on his head...": {
+      "Russian": "Так, типа... он надел эту зеленую шляпу, чтобы\nпоказать, что он ГМ или что-то типа того?\nЭто выглядит так глупо, он словно миску\nна голову напялил...",
+      "Romanian": "Săn-țeleg... el îmbracă cea pălărie să \ndemonstrezecă el e DM? Tare straniu, parc-ar fi un bol\npe capul lui..."
+    },
+    "Kyaah, our DM is so cool! I heard his campaigns take \ninspiration from real places he's been to!": {
+      "Russian": "Кьяяя, наш ДМ такой крутой! Я слышала, \nчто его кампейны черпают вдохновение \nиз реальных мест, в которых он побывал!",
+      "Romanian": "Kyaa, DM-ul nostru e atât de mișto! Zvonuri spun\ncă campaniile lui sunt inspirate de locurile\nunde el a călătorit!"
+    },
+    "Holy cow, that thing is huge! \nIt's like a small spaceship.": {
+      "Russian": "Святые угодники, эта штука огромна!\nОна прям как маленнький космический\nкорабль.",
+      "Romanian": "Aoleu, ce imens!\nCa o mini-navetă"
+    },
+    "Notice how they make them bigger, \ndespite the fact they don't have any games.": {
+      "Russian": "Обрати внимание - они делают их\nвсе больше, несмотря на факт того,\nчто на них нет никаких игр.",
+      "Romanian": "Ai observat că ei le fac mai mari,\nchiar dacă ele n-au jocuri?"
+    },
+    "I'm not very good at video games, but \nI thought I'd give it a try.": {
+      "Russian": "Я не очень хороша в видео играх, но\nя подумала, что можно все-таки\nпопробовать.",
+      "Romanian": "Eu nu-s prea bună la jocuri video, dar\nm-am decis să dau o șansă."
+    },
+    "I’m just here to soak in \nthe atmosphere—it's so vibrant!": {
+      "Russian": "Я здесь только для того, чтобы\nокунуться в атмосферу - она\nтакая яркая!",
+      "Romanian": "Eu sunt aici doar să apreciez\natmosfera-e atât de vie!"
+    },
+    "\"Hi everyone, ShepHARD online! IT'S MORPHIN TIME!!\"\n\\n<Max Sephard>": {
+      "Russian": "\"Всем привет, ШепХАРД онлайн!\nВРЕМЯ МОРФИНА!!\" \\n<Макс Шепхард>",
+      "Romanian": "\"Salut tuturor, ShepHARD online!\nTIMPUL DE MORPH!!\" \\n<Max Sephard>"
+    },
+    "I practiced all day for this... watch out for my \nsecret technique! [Korean Backdash]!": {
+      "Russian": "Я весь день ради этого практиковался...\nберегись моей секретной техники!\n[Корейский бакдэш]!",
+      "Romanian": "M-am antrenat toată ziua...\nE timpul să vedeți tehnica mea secretă\n[Korean Backdash]! "
+    },
+    "Hi, I'm Karina!\nAnswer my trivia and you'll receive a stamp!\n\\n<Karina> ": {
+      "Russian": "Привет, я Карина!\nОтветь на мою викторину и\nполучишь штамп! \\n<Карина>",
+      "Romanian": "Salut, sunt Karina!\nRăspunde la testul meu \nși vei primi ștampila!\\n<Karina>"
+    },
+    "What was in the trunk of James Sunderland,\nthe protagonist of Silent Hill 2?\n\\n<Karina>  ": {
+      "Russian": "Что было в багажнике Джеймса\nСандерленда, главного героя\nSilent Hill 2? \\n<Карина>",
+      "Romanian": "Ce era în portbagajul lui\nJames Sunderland, protagonist jocului\n Silent Hill 2?\\n<Karina>"
+    },
+    "That would make sense, although\nthat's wrong, sadly!\n\\n<Karina> ": {
+      "Russian": "Это имеет смысл, но, к сожалению,\nэто неверно! \\n<Карина>",
+      "Romanian": "Logic, dar greșit, din păcate!\\n<Karina>"
+    },
+    "Wrong answer! Although this would've been\na much different game if he went fishing.\n\\n<Karina> ": {
+      "Russian": "Неверный ответ! Хотя это была бы совсем\nдругая игра, если бы он пошел рабычить. \\n<Карина>",
+      "Romanian": "Greșit! Dar dacă ar fi venit pentru pescuială\nam avea un joc total diferit.\\n<Karina>"
+    },
+    "That's right! Here's a stamp \nfor answering correctly!\n\\n<Karina> ": {
+      "Russian": "Это верно! Держи штамп за\nто, что ответила правильно!\\n<Карина>",
+      "Romanian": "Corect! Ștampilă ție pentru răspunsul corect!\\n<Karina>"
+    },
+    "You already got your stamp from here!\n\\n<Karina> ": {
+      "Russian": "Ты уже получила свой штамп отсюда! \\n<Карина>",
+      "Romanian": "Deja ai ștampila de la mine! \\n<Карина>"
+    },
+    "LET'S GO JUSTIN!!": {
+      "Russian": "ВПЕРЕД ДЖАСТИН!!",
+      "Romanian": "HAIDE JUSTIN!!"
+    },
+    "I programmed everything you see here!": {
+      "Russian": "Я программировал все, что ты здесь\nвидишь!",
+      "Romanian": "Eu am programat to ce vezi aici!"
+    },
+    "Do you want to be a samurai? \n\\n<Dima>": {
+      "Russian": "Хочешь стать самураем? \\n<Дима>",
+      "Romanian": "Vrei să devii samurai?\\n<Dima>"
+    },
+    "My master told me this while we were out drinking:\n\"A true samurai needs no clothes\".\nNow know what to do to become one\n\\n<Dima>": {
+      "Russian": "Пока мы пили, мой мастер вот что сказал:\n\"Истинному самураю не нужна одежда\".\nТеперь ты знаешь, что нужно сделать,\nчтобы стать самураем. \\n<Дима>",
+      "Romanian": "La o bere iată ce maestrul mei mi-a spus:\n\"Un samurai adevărat nu are nevoie de haine\".\nAcum știi cum să devii unul.\\n<Dima>"
+    },
+    "Congratulations! You've collected all the stamps! \nGo to the gatchapon machine on Hall 1!": {
+      "Russian": "Поздравляем! Ты собрала все штампы!\nСкорее иди к гачапону в Холе 1!",
+      "Romanian": "Felicitări! Ai primit toate ștampilele!\nFugi către gatchaponul din Holul 1!"
+    },
+    "Boss! There's an intruder in our midst!\nWe ought to call a crisis conference!": {
+      "Russian": "Босс! К нам проник посторонний!\nМы должны созвать срочную\nконференцию!",
+      "Romanian": "Șeful! Avem un intrus printre noi!\nTrebuie de făcut o întâlnire de urgență!"
+    },
+    "Capo! An unwanted guest's in the vicinity!\nRequesting a danger gathering!": {
+      "Russian": "Босс! Поблизости незваный гость!\nЗапрашиваю срочное собрание!",
+      "Romanian": "Șeful! Invitați neprevăzuți!\nO întâlnire de urgență imediată!"
+    },
+    "Keep it a secret between you 'n me,\nI don't like the cut of my neighbor's jib.\nYa reckon he's mafia?": {
+      "Russian": "Держи это между нами, но мне не\nнравится, то, как ведет себя мой\nсосед. Как думаешь, он мафия?",
+      "Romanian": "Asta doar între mine și tine,\nnu crezi că cel de lângă mine e cam suspicios?\nCrezi oare să fie mafia?"
+    },
+    "*SNOOOOOOORE*": {
+      "Russian": "*ХРАААААААП*",
+      "Romanian": "*SFORRRRRRRRRR*"
+    },
+    "The town goes to sleep...\nH-Hey, you're not supposed to be here,\nthe game's in session!": {
+      "Russian": "Город засыпает...\nЭ-эй, ты не должна быть здесь,\nигра уже началась!",
+      "Romanian": "Orașul se culcă...\nO-oi, ce cauți aici, mă?\nJocul deja s-a început!"
+    },
+    "Don't distrub us, pal!": {
+      "Russian": "Не беспокой нас, приятель!",
+      "Romanian": "Pleac-o, puștoaică!"
+    },
+    "I have one last card left...\nWhat do you mean this isn't Uno?": {
+      "Russian": "У меня осталась одна карта...\nВ каком это смысле это не Уно?",
+      "Romanian": "Ultima mea carte...\nAdică-mi spui noi nu jucăm Uno?"
+    },
+    " *   hey pal, have you seen papyrus by any chance?": {
+      "Russian": " *   хей подруга, ты, случаем, не видела папайруса?",
+      "Romanian": " *   hei prieten-o, nu l-ai vロzut \npe papyrus pe undeva?"
+    },
+    " *   without him it's pretty bone-ly in here!": {
+      "Russian": " *   без него здесь как-то костляво!",
+      "Romanian": "*   fロrロ el e cam n„os”ol pe aici!"
+    },
+    "Eeyikes! I heard some bonerattling on \nthe opposite corner of the room...\nbut I'm too scared to look for myself!": {
+      "Russian": "Ииииии! Я слышал, как в противоположном\nуглу комнаты раздался какой-то грохот\nкостей... но мне слишком страшно, чтобы\nпойти проверить!",
+      "Romanian": "Brrr! Se aude un zdrângănit de oase\n din colțul din dreapta! Mi-e frică!"
+    },
+    "Wow, this place looks like a fortress\nstraight out of a fantasy anime! ": {
+      "Romanian": "Uau, fortăreața asta arată fix\ndintr-un fantasy anime!",
+      "Russian": "Вау, это место выглядит \nкак крепость прямиком из фентези аниме!"
+    },
+    "            Greetings, fair traveler!\n           You stand before the Bastion, \n           where the valor of knights and \n           the spirit of chivalry live on!": {
+      "Russian": "         Приветствую тебя, путник! \n         Ты стоишь перед Бастионом, \n      где обитает доблесть и дух рыцарства!",
+      "Romanian": "           Salutări, călător corect!\n           Stai în fața Bastionului,\n           unde vitejia cavalerilor si\n        spiritul cavaleresc mai trăiește!"
+    },
+    "I pronounce you husband and wife!": {
+      "Russian": "Я объявляю вас мужем и женой!",
+      "Romanian": "Vă declar soț și soție!"
+    },
+    "Have a great day out there, and stay safe!": {
+      "Russian": "Желаем вам отличного дня и берегите себя!",
+      "Romanian": "Să aveți o zi minunată acolo și să fiți în siguranță!"
+    },
+    "Thanks, Conductor-san! I’ll be careful!": {
+      "Romanian": "Mulțumesc, Conductor-san! voi fi atentă!",
+      "Russian": "Спасибо, Кондуктор-сан! Я буду осторожна!"
+    },
+    "Aww I broke another plate..!\nWe've got trouble!!": {
+      "Russian": "Ой, я разбила еще одну тарелку!.. У нас проблемы!!",
+      "Romanian": "Aww am mai spart o farfurie..! Avem probleme!!"
+    },
+    "You dont have enough stamps.": {
+      "Romanian": "Nu ai suficiente ștampile.",
+      "Russian": "У вас недостаточно штампов."
+    },
+    "To busy doing nothing.\n\\n<Slava> ": {
+      "Russian": "Слишком занят ничегонеделанием. \\n<Слава>",
+      "Romanian": "Sunt prea ocupat ne făcând nimic. \\n<Slava>"
+    },
+    "Approach the weird thing device beside me!": {
+      "Romanian": "Apropiați-vă de dispozitivul ciudat de lângă mine!",
+      "Russian": "Подойдите к странному устройству рядом со мной!"
+    },
+    "You got your stemp. Go to other people\n\\n<Eva> ": {
+      "Romanian": "Ți-ai luat ștampila. Accesați alte persoane \\n<Eva>",
+      "Russian": "Ты получил свой штамп. Иди к другим людям \\n<Eva>"
+    },
+    "Thank You!": {
+      "Romanian": "Multumesc!",
+      "Russian": "Спасибо!"
+    }
+  },
+  "cmd": {
+    "Set 1": {
+      "Russian": "Сет 1",
+      "Romanian": "Set 1"
+    },
+    "Set 2": {
+      "Russian": "Сет 2",
+      "Romanian": "Set 2"
+    },
+    "Cancel": {
+      "Russian": "Отмена",
+      "Romanian": "Anulare"
+    },
+    "Plastic": {
+      "Russian": "Пластик",
+      "Romanian": "Plastic"
+    },
+    "EVA foam": {
+      "Russian": "EVA пенка",
+      "Romanian": "Spumă EVA"
+    },
+    "Cardboard": {
+      "Russian": "Картон",
+      "Romanian": "Carton"
+    },
+    "Outside": {
+      "Russian": "На улицу",
+      "Romanian": "Afară"
+    },
+    "Mediacor Hall": {
+      "Russian": "Холл Медиакора",
+      "Romanian": "Hol Mediacor"
+    },
+    "Floor 1": {
+      "Russian": "Этаж 1",
+      "Romanian": "Etajul 1"
+    },
+    "Floor 3": {
+      "Russian": "Этаж 3",
+      "Romanian": "Etajul 3"
+    },
+    "Yes": {
+      "Russian": "Да",
+      "Romanian": "Da"
+    },
+    "No": {
+      "Russian": "Нет",
+      "Romanian": "Nu"
+    },
+    "Rock": {
+      "Russian": "Камень",
+      "Romanian": "Piatră"
+    },
+    "Paper": {
+      "Russian": "Бумага",
+      "Romanian": "Hârtie"
+    },
+    "Scissors": {
+      "Russian": "Ножницы",
+      "Romanian": "Foarfece"
+    },
+    "Language": {
+      "Romanian": "Limba",
+      "Russian": "Язык"
+    },
+    "Fullscreen": {
+      "Russian": "Полный экран",
+      "Romanian": "Ecran complet"
+    },
+    "Exit": {
+      "Russian": "Выход",
+      "Romanian": "Ieșire"
+    },
+    "Options": {
+      "Romanian": "Opțiuni",
+      "Russian": "Параметры"
+    },
+    "Play": {
+      "Russian": "Играть",
+      "Romanian": "Joacă"
+    },
+    "Exit Menu": {
+      "Russian": "Выход из меню",
+      "Romanian": "Ieșiți din meniu"
+    },
+    "Main Hall": {
+      "Russian": "Холл Медиакора",
+      "Romanian": "Hol Mediacor"
+    },
+    "Mafia Game": {
+      "Russian": "Мафия",
+      "Romanian": "Mafia"
+    },
+    "Speed Dating": {
+      "Russian": "Спид дейтинг",
+      "Romanian": "Speed Dating"
+    },
+    "His wife": {
+      "Russian": "Его жена",
+      "Romanian": "Soția lui"
+    },
+    "Fishing set": {
+      "Russian": "Рыболовная сеть",
+      "Romanian": "Set de pescuit"
+    },
+    "A spare tire and some first-aid": {
+      "Russian": "Запасное колесо и аптечка",
+      "Romanian": "Roată de cauciuc și prim ajutor"
+    },
+    "Always Dash": {
+      "Russian": "Всегда бегать",
+      "Romanian": "Întotdeauna Fugi"
+    },
+    "BGM Volume": {
+      "Romanian": "Volumul BGM",
+      "Russian": "Громкость фоновой музыки"
+    }
+  },
+  "custom": {
+    "Russian": {
+      "Russian": "Русский",
+      "Stamp": "Штамп",
+      "ON": "ВКЛ",
+      "OFF": "ВЫКЛ"
+    },
+    "Romanian": {
+      "Romanian": "Română",
+      "Stamp": "Ştampila"
+    }
+  }
+}

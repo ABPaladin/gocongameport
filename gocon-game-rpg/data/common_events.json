@@ -1,0 +1,15 @@
+{
+  "1": {
+    "id": 1,
+    "name": "",
+    "trigger": 0,
+    "switchId": 1,
+    "list": [
+      {
+        "code": 0,
+        "indent": 0,
+        "parameters": []
+      }
+    ]
+  }
+}

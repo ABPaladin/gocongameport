@@ -1,0 +1,8 @@
+.claude/
+**/.godot/
+**/__pycache__/
+*.pyc
+builds/
+artifacts/
+.venv/
+*.log

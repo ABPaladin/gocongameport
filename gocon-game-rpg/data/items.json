@@ -1,0 +1,42 @@
+{
+  "1": {
+    "id": 1,
+    "name": "Stamp",
+    "description": "",
+    "iconIndex": 195,
+    "itypeId": 1,
+    "price": 0,
+    "consumable": false,
+    "scope": 0,
+    "occasion": 0,
+    "effects": [],
+    "damage": {
+      "critical": false,
+      "elementId": 0,
+      "formula": "0",
+      "type": 0,
+      "variance": 20
+    },
+    "note": ""
+  },
+  "2": {
+    "id": 2,
+    "name": "QuestList",
+    "description": "",
+    "iconIndex": 193,
+    "itypeId": 1,
+    "price": 0,
+    "consumable": true,
+    "scope": 7,
+    "occasion": 0,
+    "effects": [],
+    "damage": {
+      "critical": false,
+      "elementId": 0,
+      "formula": "0",
+      "type": 0,
+      "variance": 20
+    },
+    "note": ""
+  }
+}

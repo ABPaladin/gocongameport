@@ -171,8 +171,8 @@ def extract_map(raw_name, map_id, flags):
     # map's NOTE contains the matching tag (<ground>/<par>) or <all>; otherwise
     # the file on disk is ignored. The `par` layer is additionally gated behind
     # a switch (OrangeOverlay "Parallax Switch ID" = 3): it's only visible while
-    # that switch is ON. Nothing in this game ever turns switch 3 on, so par is
-    # effectively never shown - we record the gate so Godot reproduces that.
+    # that switch is ON. OrangeOverlay Quick Start enables switches 1-4 in
+    # DataManager.setupNewGame; the native GameState must reproduce this.
     par_dir = os.path.join(REPO_ROOT, "legacy", "img", "parallaxes")
     note = d.get("note", "")
     has_all = "<all>" in note

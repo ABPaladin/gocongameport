@@ -1,0 +1,29 @@
+{
+  "_comment": "Decalaj vizual pe verticala per eveniment (mapId -> eventId -> pixeli, negativ = mai sus). Generat automat din suprapunerea cu stratul foreground, plafonat la -10. Map6 pastreaza -8, valoarea testata manual. Editeaza liber orice valoare.",
+  "4": {
+    "4": -10,
+    "12": -10
+  },
+  "5": {
+    "5": -8,
+    "6": -7
+  },
+  "6": {
+    "6": -8,
+    "8": -8,
+    "9": -8
+  },
+  "7": {
+    "4": -10,
+    "5": -10,
+    "7": -10,
+    "8": -10,
+    "10": -10,
+    "11": -10,
+    "46": -10
+  },
+  "10": {
+    "4": -10,
+    "6": -10
+  }
+}

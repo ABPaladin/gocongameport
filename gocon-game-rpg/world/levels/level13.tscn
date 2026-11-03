@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://b754443oo2ahw" path="res://world/Map.tscn" id="1_map"]
+[ext_resource type="Texture2D" uid="uid://brfqg327mfpl3" path="res://assets/maps/level13/ground.png" id="2_gr"]
+[ext_resource type="PackedScene" uid="uid://ddqfkohk7onw" path="res://actors/player/player.tscn" id="4_pl"]
+
+[node name="Map" instance=ExtResource("1_map")]
+map_id = 13
+
+[node name="Ground" parent="." index="0"]
+texture = ExtResource("2_gr")
+
+[node name="Player" parent="Entities" index="0" instance=ExtResource("4_pl")]
+position = Vector2(480, 480)

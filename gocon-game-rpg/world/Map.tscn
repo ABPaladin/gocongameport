@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://b754443oo2ahw"]
+
+[ext_resource type="Script" uid="uid://le7wx3rvsov" path="res://world/map.gd" id="1_m2dao"]
+
+[node name="Map" type="Node2D" unique_id=1898152354]
+script = ExtResource("1_m2dao")
+
+[node name="Ground" type="Sprite2D" parent="." unique_id=140102645]
+centered = false
+
+[node name="Entities" type="Node2D" parent="." unique_id=3010209]
+y_sort_enabled = true
+
+[node name="Foreground" type="Sprite2D" parent="." unique_id=1558546467]
+z_index = 100
+centered = false
+
+[node name="Collisions" type="Node2D" parent="." unique_id=1126486285]

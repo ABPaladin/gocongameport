@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://cl3edkd62bb7n"]
+
+[ext_resource type="PackedScene" uid="uid://b754443oo2ahw" path="res://world/Map.tscn" id="1_map"]
+[ext_resource type="Texture2D" uid="uid://cxftokuy5km42" path="res://assets/maps/level01/ground.png" id="2_gr"]
+[ext_resource type="Texture2D" uid="uid://0xb1w8wwm386" path="res://assets/maps/level01/foreground.png" id="3_fg"]
+[ext_resource type="PackedScene" uid="uid://ddqfkohk7onw" path="res://actors/player/player.tscn" id="4_pl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hucyo"]
+size = Vector2(193, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(34, 40)
+
+[node name="Map" unique_id=1098774595 instance=ExtResource("1_map")]
+
+[node name="Ground" parent="." index="0" unique_id=140102645]
+texture = ExtResource("2_gr")
+
+[node name="Player" parent="Entities" parent_id_path=PackedInt32Array(3010209) index="0" unique_id=767542872 instance=ExtResource("4_pl")]
+position = Vector2(480, 448)
+
+[node name="Foreground" parent="." index="2" unique_id=1558546467]
+texture = ExtResource("3_fg")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Collisions" parent_id_path=PackedInt32Array(1126486285) index="0" unique_id=1787546027]
+position = Vector2(-62, -637)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/StaticBody2D" index="0" unique_id=1983029180]
+position = Vector2(442.5, 1332.5)
+shape = SubResource("RectangleShape2D_hucyo")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Collisions" parent_id_path=PackedInt32Array(1126486285) index="1" unique_id=1972566279]
+position = Vector2(592, 619)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collisions/StaticBody2D2" index="0" unique_id=555925111]
+position = Vector2(-7, 10)
+shape = SubResource("RectangleShape2D_g4v7s")

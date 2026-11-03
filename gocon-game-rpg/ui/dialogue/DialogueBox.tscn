@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://cjbkbskcpbxd4"]
+
+[ext_resource type="Script" uid="uid://bcs8igrceitw8" path="res://ui/dialogue/dialogue_box.gd" id="1_nc73h"]
+
+[node name="DialogueBox" type="CanvasLayer" unique_id=948573262]
+script = ExtResource("1_nc73h")
+
+[node name="Root" type="Control" parent="." unique_id=2062613391]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Root" unique_id=575733815]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -170.0
+grow_horizontal = 2
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="HBox" type="HBoxContainer" parent="Root/Panel" unique_id=246959087]
+layout_mode = 2
+
+[node name="Portrait" type="TextureRect" parent="Root/Panel/HBox" unique_id=1759342472]
+custom_minimum_size = Vector2(144, 144)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Root/Panel/HBox" unique_id=1137922944]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NameLabel" type="Label" parent="Root/Panel/HBox/VBox" unique_id=1266070648]
+layout_mode = 2
+
+[node name="Text" type="RichTextLabel" parent="Root/Panel/HBox/VBox" unique_id=1663124824]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+fit_content = true
+scroll_active = false

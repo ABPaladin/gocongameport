@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://mxara1w60cmi"]
+
+[ext_resource type="PackedScene" uid="uid://b754443oo2ahw" path="res://world/Map.tscn" id="1_tw2oy"]
+[ext_resource type="Texture2D" uid="uid://v1y5dllhyc74" path="res://assets/maps/level06/ground.png" id="2_qu3jy"]
+[ext_resource type="Texture2D" uid="uid://c0wymildx3oli" path="res://assets/maps/level06/foreground.png" id="3_e0rsr"]
+[ext_resource type="PackedScene" uid="uid://ddqfkohk7onw" path="res://actors/player/player.tscn" id="4_to1mj"]
+
+[node name="Map" unique_id=1898152354 instance=ExtResource("1_tw2oy")]
+map_id = 6
+
+[node name="Ground" parent="." index="0" unique_id=140102645]
+position = Vector2(0, 1.5)
+texture = ExtResource("2_qu3jy")
+
+[node name="Foreground" parent="." index="2" unique_id=1558546467]
+position = Vector2(0, 1.5)
+texture = ExtResource("3_e0rsr")
+
+[node name="Player" parent="." index="4" unique_id=1815431293 instance=ExtResource("4_to1mj")]
+position = Vector2(448, 1312)

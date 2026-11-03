@@ -1,0 +1,3 @@
+{
+  "_comment": "Dale blocate SUPLIMENTAR, adaugate MANUAL. Format: mapId -> [[x,y], ...] in coordonate de DALA (nu pixeli), deci sunt mereu aliniate perfect la grila. Exemplu: \"5\": [[12,20],[13,20]] blocheaza doua dale pe level05. Foloseste asta in loc de StaticBody2D - acelea trebuie aliniate manual la multipli de 32 si e usor sa iasa nealiniate (RayCast-ul playerului porneste din centrul dalei si le rateaza). Ca sa afli coordonatele: bifeaza Debug Show Player Tile pe radacina scenei, mergi cu playerul unde vrei si citeste numarul de pe ecran."
+}

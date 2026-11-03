@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://brrhfnqrmmkhn"]
+
+[ext_resource type="PackedScene" uid="uid://b754443oo2ahw" path="res://world/Map.tscn" id="1_map"]
+[ext_resource type="Texture2D" uid="uid://bhkbrusskn1os" path="res://assets/maps/level11/ground.png" id="2_gr"]
+[ext_resource type="PackedScene" uid="uid://ddqfkohk7onw" path="res://actors/player/player.tscn" id="4_pl"]
+
+[node name="Map" unique_id=1994210192 instance=ExtResource("1_map")]
+map_id = 11
+
+[node name="Ground" parent="." index="0" unique_id=140102645]
+texture = ExtResource("2_gr")
+
+[node name="Player" parent="Entities" parent_id_path=PackedInt32Array(3010209) index="0" unique_id=878796470 instance=ExtResource("4_pl")]
+position = Vector2(303, 303)

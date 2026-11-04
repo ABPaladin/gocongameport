@@ -1,232 +1,194 @@
 class_name GameMap
 extends Node2D
-## Construiește automat coliziunile unei hărți din datele extrase din jocul
-## RPG Maker original (data/maps/mapNNN.json → câmpul "collision").
-##
-## Grila de coliziune e un array plat: 1 = zid, 0 = liber, index = y*width + x.
-## Ca să nu creăm mii de noduri, unim celulele blocate vecine pe orizontală
-## într-un singur dreptunghi (ex. un zid de 30 de dale = 1 formă, nu 30).
-##
-## Structura de noduri așteptată:
-##   Level06 (Node2D)        <- scriptul ăsta, cu map_id = 6
-##   ├── Ground (Sprite2D)        (o pui tu: assets/maps/level06/ground.png)
-##   ├── Entities (Node2D)        (y_sort_enabled = true; player + NPC-uri)
-##   ├── Foreground (Sprite2D)    (assets/maps/level06/foreground.png)
-##   └── Collisions (Node2D)      <- aici se generează zidurile (opțional)
-
-const TILE := 32
-
-## Ce hartă încarcă (6 = level06 → data/maps/map006.json).
-@export var map_id: int = 1
-## Pe ce layer fizic stau zidurile (RayCast2D-ul playerului trebuie să aibă
-## același număr bifat la Mask).
-@export var collision_layer: int = 1
-## Poți dezactiva dacă vrei să desenezi coliziunile complet manual.
-@export var build_collision: bool = true
-## Afișează ID-ul fiecărui eveniment pe ecran (galben). Îl aprinzi ca să vezi
-## ce numere să pui în data/sprite_offsets.json când reglezi înălțimile NPC-ilor.
-@export var debug_show_event_ids: bool = false
-## Afișează pe ecran dala pe care stă playerul. Îl aprinzi ca să afli
-## coordonatele pe care să le pui în data/extra_collision.json.
-@export var debug_show_player_tile: bool = false
-
-var _tile_label: Label
-
-var width: int = 0
-var height: int = 0
-var collision: Array = []       ## 1 = zid, 0 = liber
+@export var map_id = 6
+@export var collision_layer = 1
+@export var build_collision = true
+@export var debug_show_event_ids = false
+@export var debug_show_player_tile = false
 var map_data: Dictionary = {}
-
-
-## Lista evenimentelor instanțiate (utilă mai târziu pentru dialoguri).
-var events: Array[GameEvent] = []
-
+var width = 0
+var height = 0
+var flags: Array = []
+var events: Array = []
+var player
+var camera: Camera2D
+var foreground_runner
+var dirty_pages = true
+var transfer_pending = false
+var zoom_target = 2.0
+var zoom_frames = 0
+var indicator: Sprite2D
 
 func _ready() -> void:
-	# Playerul găsește harta prin grupul ăsta (nu depinde de poziția în arbore).
 	add_to_group("game_map")
-	if not _load_data():
-		return
-	if build_collision:
-		_build_collision()
-	_spawn_events()
-	if debug_show_player_tile:
-		_build_tile_readout()
+	map_data = GameData.maps[map_id]
+	width = int(map_data.width)
+	height = int(map_data.height)
+	flags = GameData.tilesets[str(int(map_data.tilesetId))].flags
+	for child in get_children():
+		if child is Player: child.queue_free()
+	var ground_name = str(map_data.overlays.ground).trim_suffix(".png")
+	var foreground_name = str(map_data.overlays.par).trim_suffix(".png")
+	$Ground.position = Vector2.ZERO
+	$Foreground.position = Vector2.ZERO
+	$Ground.texture = load(GameData.asset("parallaxes", ground_name)) if ground_name != "" else null
+	$Foreground.texture = load(GameData.asset("parallaxes", foreground_name)) if foreground_name != "" else null
+	for data in map_data.events:
+		var event = GameEvent.new()
+		event.world = self
+		$Entities.add_child(event)
+		event.setup(data)
+		events.append(event)
+	player = Player.new()
+	player.world = self
+	$Entities.add_child(player)
+	var actor: Dictionary = GameData.actors["1"]
+	player.set_graphic({"characterName":actor.characterName, "characterIndex":actor.characterIndex})
+	player.locate(GameState.player_tile, GameState.facing)
+	camera = Camera2D.new()
+	camera.position = Vector2(16, 16)
+	camera.zoom = Vector2(2, 2)
+	camera.position_smoothing_enabled = false
+	camera.limit_left = 0
+	camera.limit_top = 0
+	camera.limit_right = width * 32
+	camera.limit_bottom = height * 32
+	player.add_child(camera)
+	indicator = Sprite2D.new()
+	indicator.texture = load(GameData.asset("system", "IconSet"))
+	indicator.region_enabled = true
+	indicator.z_index = 110
+	indicator.visible = false
+	add_child(indicator)
+	GameState.changed.connect(_state_changed)
+	if map_data.autoplayBgm: AudioManager.play_bgm(map_data.bgm)
 
+func _state_changed() -> void: dirty_pages = true
+func input_locked() -> bool:
+	return transfer_pending or foreground_runner != null or DialogueManager.is_busy or SceneManager.paused
 
-## Etichetă de debug: arată dala pe care stă playerul, în colţul ecranului.
-func _build_tile_readout() -> void:
-	var layer := CanvasLayer.new()
-	layer.layer = 50
-	add_child(layer)
-	_tile_label = Label.new()
-	_tile_label.position = Vector2(8, 8)
-	_tile_label.add_theme_font_size_override("font_size", 16)
-	_tile_label.add_theme_color_override("font_color", Color(1, 1, 0))
-	_tile_label.add_theme_constant_override("outline_size", 4)
-	_tile_label.add_theme_color_override("font_outline_color", Color.BLACK)
-	layer.add_child(_tile_label)
+func _physics_process(_delta: float) -> void:
+	if SceneManager.paused or transfer_pending: return
+	if dirty_pages:
+		for event in events: event.refresh_page()
+		dirty_pages = false
+	$Foreground.visible = GameState.get_switch(int(map_data.overlays.parSwitch))
+	if GameState.timer_running and GameState.timer_frames > 0: GameState.timer_frames -= 1
+	if zoom_frames > 0:
+		camera.zoom = (camera.zoom * (zoom_frames - 1) + Vector2.ONE * zoom_target) / zoom_frames
+		zoom_frames -= 1
+	for event in events: event.tick()
+	player.tick()
+	update_indicator()
+	if foreground_runner != null:
+		foreground_runner.tick()
+		if foreground_runner.done: foreground_runner = null
+	# State changes may invalidate an autorun page. Refresh before starting any
+	# new task, otherwise the stale intro/reward page can restart in this tick.
+	if dirty_pages:
+		for event in events: event.refresh_page()
+		dirty_pages = false
+	for event in events:
+		if event.trigger_type() == 4:
+			if event.runner == null or event.runner.done:
+				event.runner = EventRunner.new(self, event)
+			event.runner.tick()
+		elif event.trigger_type() == 3 and foreground_runner == null:
+			foreground_runner = EventRunner.new(self, event)
 
+func trigger_at(at: Vector2i, triggers: Array, normal_priority: bool) -> void:
+	if input_locked(): return
+	for event in events:
+		if event.tile == at and event.trigger_type() in triggers and (event.priority == 1) == normal_priority:
+			if not event.direction_fix: event.direction = 10 - player.direction
+			foreground_runner = EventRunner.new(self, event)
+			return
 
-func _process(_delta: float) -> void:
-	if _tile_label == null:
-		return
-	var pl := get_tree().get_first_node_in_group("player")
-	if pl == null:
-		# fallback: căutăm playerul sub Entities
-		var ent := get_node_or_null("Entities")
-		if ent:
-			for c in ent.get_children():
-				if c is Player:
-					pl = c
-					break
-	if pl:
-		var tx := int(round(pl.position.x / TILE))
-		var ty := int(round(pl.position.y / TILE))
-		_tile_label.text = "dala: [%d, %d]" % [tx, ty]
-
-
-## Citește data/maps/mapNNN.json. Întoarce false dacă lipsește.
-func _load_data() -> bool:
-	var path := "res://data/maps/map%03d.json" % map_id
-	if not FileAccess.file_exists(path):
-		push_warning("[GameMap] lipsește fișierul: " + path)
-		return false
-	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
-	if typeof(parsed) != TYPE_DICTIONARY:
-		push_error("[GameMap] JSON invalid: " + path)
-		return false
-	map_data = parsed
-	width = int(map_data.get("width", 0))
-	height = int(map_data.get("height", 0))
-	collision = map_data.get("collision", [])
-	_merge_extra_collision()
-	return true
-
-
-## Adaugă peste coliziunile din datele originale şi dalele generate din arta
-## din `foreground` (baza tejghelelor, trunchiurilor, gardurilor).
-##
-## Jocul original nu le avea blocate, pentru că acolo stratul foreground nici
-## nu se afişa. La noi se afişează, deci obiectele trebuie să fie solide —
-## altfel intri cu playerul prin ele.
-##
-## Fişierul data/extra_collision.json e generat automat, dar îl poţi edita:
-## ştergi perechi [x,y] ca să deblochezi, adaugi ca să blochezi.
-func _merge_extra_collision() -> void:
-	var path := "res://data/extra_collision.json"
-	if not FileAccess.file_exists(path):
-		return
-	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
-	if typeof(parsed) != TYPE_DICTIONARY:
-		return
-	var cells: Array = parsed.get(str(map_id), [])
-	for c in cells:
-		var x := int(c[0])
-		var y := int(c[1])
-		if x >= 0 and y >= 0 and x < width and y < height:
-			collision[y * width + x] = 1
-
-
-## Creează UN StaticBody2D cu mai multe dreptunghiuri de coliziune.
-func _build_collision() -> void:
-	if collision.is_empty():
-		return
-
-	var body := StaticBody2D.new()
-	body.name = "GeneratedCollision"
-	body.collision_layer = collision_layer
-	body.collision_mask = 0          # zidurile nu trebuie să detecteze nimic
-	# Dacă ai un nod "Collisions" în scenă, punem zidurile acolo; altfel direct.
-	var parent: Node = get_node_or_null("Collisions")
-	if parent == null:
-		parent = self
-	parent.add_child(body)
-
-	var shapes := 0
-	for y in height:
-		var x := 0
-		while x < width:
-			if int(collision[y * width + x]) != 1:
-				x += 1
-				continue
-			# Am găsit începutul unui zid: mergem cât ține pe orizontală.
-			var start := x
-			while x < width and int(collision[y * width + x]) == 1:
-				x += 1
-			var run := x - start            # câte dale are zidul ăsta
-
-			var cs := CollisionShape2D.new()
-			var rect := RectangleShape2D.new()
-			rect.size = Vector2(run * TILE, TILE)
-			cs.shape = rect
-			# Poziția e CENTRUL dreptunghiului.
-			cs.position = Vector2(start * TILE + run * TILE / 2.0, y * TILE + TILE / 2.0)
-			body.add_child(cs)
-			shapes += 1
-
-	print("[GameMap] map %d: %d celule blocate → %d forme de coliziune"
-		% [map_id, _count_blocked(), shapes])
-
-
-## Creează câte un nod GameEvent pentru fiecare eveniment din datele hărții.
-## Le punem sub "Entities" ca să intre în y-sort (cine e mai jos se desenează
-## în față), împreună cu playerul.
-func _spawn_events() -> void:
-	var parent: Node = get_node_or_null("Entities")
-	if parent == null:
-		parent = self
-
-	var offsets := _load_sprite_offsets()
-	var blocking := 0
-	for event_data in map_data.get("events", []):
-		var ev := GameEvent.new()
-		# Atenție: JSON poate întoarce id-ul ca float (6.0), iar str(6.0) NU e
-		# egal cu cheia "6". De aceea normalizăm prin int().
-		var eid := str(int(event_data.get("id", 0)))
-		ev.name = "Event" + eid
-		parent.add_child(ev)
-		ev.setup(event_data, int(offsets.get(eid, 0)))
-		if debug_show_event_ids:
-			ev.show_debug_id()
-		events.append(ev)
-		if ev.body != null:
-			blocking += 1
-
-	print("[GameMap] map %d: %d evenimente (%d blochează)"
-		% [map_id, events.size(), blocking])
-
-
-## Citește decalajele vizuale pentru harta asta din data/sprite_offsets.json.
-## Fișierul e opțional — dacă lipsește, toate evenimentele stau normal.
-func _load_sprite_offsets() -> Dictionary:
-	var path := "res://data/sprite_offsets.json"
-	if not FileAccess.file_exists(path):
-		return {}
-	var parsed = JSON.parse_string(FileAccess.get_file_as_string(path))
-	if typeof(parsed) != TYPE_DICTIONARY:
-		return {}
-	return parsed.get(str(map_id), {})
-
-
-func _count_blocked() -> int:
-	var n := 0
-	for c in collision:
-		if int(c) == 1:
-			n += 1
-	return n
-
-
-## Evenimentul de pe dala (x, y), dacă există și are o pagină activă.
-func event_at(x: int, y: int) -> GameEvent:
-	for ev in events:
-		if ev.grid_x == x and ev.grid_y == y and not ev.active_page.is_empty():
-			return ev
+func character(id: int, current_event):
+	if id == -1: return player
+	if id == 0: return current_event
+	for event in events:
+		if event.event_id == id: return event
 	return null
 
+func update_indicator() -> void:
+	indicator.visible = false
+	if input_locked() or not GameState.indicators_visible: return
+	var target = wrap_tile(player.tile + MapActor.DIRECTIONS[player.direction])
+	for event in events:
+		if event.tile != target or event.trigger_type() != 0: continue
+		for command in event.command_list():
+			if int(command.code) != 108: continue
+			var regex = RegEx.new()
+			regex.compile("(?i)<actionIcon:\\s*(\\d+)>")
+			var found = regex.search(str(command.parameters[0]))
+			if found:
+				var icon = int(found.get_string(1))
+				indicator.region_rect = Rect2((icon % 16) * 32, int(icon / 16) * 32,32,32)
+				indicator.position = event.position + Vector2(16,-40)
+				indicator.visible = true
+				return
 
-## Utilitar: e liberă dala (x, y)? (folositor mai târziu pentru NPC-uri)
-func is_passable(x: int, y: int) -> bool:
-	if x < 0 or y < 0 or x >= width or y >= height:
-		return false
-	return int(collision[y * width + x]) != 1
+func wrap_tile(at: Vector2i) -> Vector2i:
+	var scroll = int(map_data.scrollType)
+	return Vector2i(posmod(at.x, width) if scroll in [2,3] else at.x, posmod(at.y, height) if scroll in [1,3] else at.y)
+
+func valid(at: Vector2i) -> bool:
+	return at.x >= 0 and at.y >= 0 and at.x < width and at.y < height
+
+func passage(at: Vector2i, bit: int) -> bool:
+	if not valid(at): return false
+	var index = at.y * width + at.x
+	for z in range(3, -1, -1):
+		var flag = int(flags[int(map_data.layers[z][index])])
+		if flag & 16: continue
+		if (flag & bit) == 0: return true
+		if (flag & bit) == bit: return false
+	return false
+
+func can_step(actor, dir: int) -> bool:
+	var dest = wrap_tile(actor.tile + MapActor.DIRECTIONS[dir])
+	if not valid(dest): return false
+	if actor.through: return true
+	if actor != player and int(map_data.regions[dest.y * width + dest.x]) == 1: return false
+	var bit = 1 << (int(dir / 2) - 1)
+	var reverse = 1 << (int((10 - dir) / 2) - 1)
+	if not passage(actor.tile, bit) or not passage(dest, reverse): return false
+	for event in events:
+		if event != actor and event.tile == dest and event.priority == 1 and not event.through and not event.active_page.is_empty(): return false
+	if actor != player and actor.priority == 1 and player.tile == dest and not player.through: return false
+	return true
+
+func path_direction(start: Vector2i, goal: Vector2i) -> int:
+	# Bounded BFS; uses the same occupancy rules as direct movement.
+	if start == goal: return 0
+	var queue = [start]
+	var first = {start: 0}
+	var original = player.tile
+	var index = 0
+	while index < queue.size() and index < 400:
+		var at: Vector2i = queue[index]
+		index += 1
+		player.tile = at
+		for dir in [2,4,6,8]:
+			var next = wrap_tile(at + MapActor.DIRECTIONS[dir])
+			if first.has(next) or not can_step(player, dir): continue
+			first[next] = dir if at == start else first[at]
+			if next == goal:
+				player.tile = original
+				return first[next]
+			queue.append(next)
+	player.tile = original
+	return 0
+
+func _unhandled_input(event: InputEvent) -> void:
+	if input_locked(): return
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		player.click_target = Vector2i((get_global_mouse_position() / 32).floor())
+
+func cancel_events() -> void:
+	transfer_pending = true
+	if foreground_runner != null: foreground_runner.cancel()
+	for event in events:
+		if event.runner != null: event.runner.cancel()
+	DialogueManager.cancel()

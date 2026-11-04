@@ -302,8 +302,12 @@ func _process(_delta: float) -> void:
 # --- Afişare ---------------------------------------------------------------
 
 ## Afişează un mesaj şi aşteaptă (cu `await`) până când jucătorul îl închide.
-func show_message(text: String, speaker: String = "", portrait_path: String = "") -> void:
+func show_message(text: String, speaker: String = "", portrait_path: String = "", face_index: int = 0, message_position: int = 2) -> void:
 	var was_closed := not _is_open
+	panel.anchor_top = 0.0
+	panel.anchor_bottom = 0.0
+	panel.offset_top = [0.0, 227.0, 454.0][clampi(message_position, 0, 2)]
+	panel.offset_bottom = panel.offset_top + 170.0
 	_is_open = true
 
 	# IMPORTANT: pregătim conţinutul ÎNAINTE de a arăta caseta.
@@ -327,7 +331,10 @@ func show_message(text: String, speaker: String = "", portrait_path: String = ""
 
 	# Portret
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
-		portrait.texture = load(portrait_path)
+		var atlas := AtlasTexture.new()
+		atlas.atlas = load(portrait_path)
+		atlas.region = Rect2((face_index % 4) * 144, int(face_index / 4) * 144, 144, 144)
+		portrait.texture = atlas
 		portrait.visible = true
 	else:
 		portrait.visible = false
@@ -401,7 +408,7 @@ func _reset_state() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _is_open:
 		return
-	if not event.is_action_pressed("interact"):
+	if not event.is_action_pressed("interact") and not (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT) and not (event is InputEventScreenTouch and event.pressed):
 		return
 	get_viewport().set_input_as_handled()
 

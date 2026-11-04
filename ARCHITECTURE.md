@@ -1,148 +1,70 @@
-# Arhitectură recomandată — Godot 4 (port RPG Maker MV)
+# Implemented architecture
 
-Structură pentru un RPG 2D top-down cu hărți, dialoguri, cutscene-uri și meniuri.
-Tu te ocupi manual de asset-uri, mapare și coliziuni; documentul ăsta îți dă
-scheletul de foldere + noduri + autoload-uri pe care le umplem împreună, sistem
-cu sistem.
+All resource paths below are relative to `gocon-game-rpg/`. Source behavior is
+defined by `legacy/data/` and the enabled MV 1.6.1 plugins. The earlier proposed
+architecture and nonexistent project paths have been superseded.
 
-> Proiectul existent din `godot_project/` respectă deja o variantă din structura
-> asta (îl poți folosi ca referință sau îl poți ignora complet).
+## Runtime ownership
 
----
+| Component | Responsibility |
+|---|---|
+| Main.tscn / main.gd | Title, pause/settings UI, HUD, touch buttons |
+| autoload/game_data.gd | Validated JSON loading, original-ID dictionaries, asset manifest, full-message translation |
+| autoload/game_state.gd | Switches, variables, self-switches, inventory, timer, language, input bindings |
+| autoload/scene_manager.gd | Title/new game/game over, map lifecycle, transition fades and continuation |
+| world/Map.tscn / map.gd | Painted layers, page refresh, foreground/parallel scheduling, passage and occupancy, camera |
+| systems/map_actor.gd | Sheet-derived frames, grid interpolation, forced routes, animation, balloons |
+| events/event.gd | Highest-valid-page selection and autonomous movement |
+| actors/player/player.gd | Player input, movement, interaction and touch triggers |
+| events/event_runner.gd | Bounded sequential command VM, branches/loops, waits, dialogue tickets, source identity |
+| autoload/dialogue_manager.gd | Translation, text formatting, messages and choices; never interprets event lists |
+| ui/dialogue/dialogue_box.gd | Original window skin/font, portrait, speaker box and typing |
+| autoload/picture_manager.gd | Picture-ID ownership, screen coordinates, linear movement, blend modes, weather |
+| autoload/audio_manager.gd | BGM/SE resources, pitch/volume, fade and cleanup |
+| autoload/save_manager.gd | Versioned checkpoint/settings persistence and validation |
 
-## 1. Structura de foldere (`res://`)
+The older standalone menu scene is not the application menu; main.gd currently
+owns that UI. Unused imported scenes/addons are not evidence of implemented features.
 
-```
-res://
-├── assets/                 # (le pui TU manual)
-│   ├── characters/         # spritesheets personaje (48x48/frame în MV)
-│   ├── faces/              # portrete 144x144
-│   ├── parallax/           # !ground<id>, !par<id> (arta hărților)
-│   ├── tilesets/           # doar dacă folosești tile-uri reale pt coliziune
-│   ├── ui/                 # rame casete, butoane, iconițe
-│   └── audio/
-│       ├── bgm/            # .ogg (Godot nu importă .m4a/AAC)
-│       └── se/
-├── data/                   # JSON (baze de date, hărți, traduceri)
-├── autoload/               # singletons (vezi §3)
-├── actors/
-│   └── player/             # Player.tscn + player.gd
-├── world/
-│   ├── Map.tscn            # o hartă (parallax + coliziuni + evenimente)
-│   └── map.gd
-├── events/
-│   ├── Event.tscn          # un eveniment de pe hartă
-│   └── event_runner.gd     # interpretorul de comenzi (dialog/cutscene/logică)
-├── ui/
-│   ├── dialogue/           # DialogueBox.tscn + dialogue_box.gd
-│   ├── menu/               # MainMenu, PauseMenu
-│   └── inventory/          # InventoryPanel
-└── systems/                # helpere reutilizabile (timere, tween-uri, math)
-```
+## Scheduling and transfer contract
 
-**Convenții:** fișiere `snake_case.gd`, clase `PascalCase` (`class_name`), scene
-`PascalCase.tscn`. Un script = o responsabilitate.
+The simulation is fixed at 60 physics ticks per second. An EventRunner holds
+command list, PC, indent-keyed branches, waits, dialogue tickets, source map/event/
+page identity and cancellation state. Loops scan the authoritative command list;
+a 100-command per-tick budget prevents an infinite loop from freezing rendering.
+Only one foreground runner exists per map. Each parallel event owns a runner.
+State changes mark pages dirty; pages refresh before a stale autorun can restart.
 
----
+Transfer cancels obsolete tasks and dialogue, then reconstructs the initiating
+foreground continuation on the destination map. Its original identity remains
+attached for self-switch writes after transfer. SceneManager owns 24-frame fades.
+The accelerated test suite disables fades and explicitly steps map simulation.
 
-## 2. Fluxul general
+## World and presentation
 
-```
-Main (entry point)
- ├── autoload-uri (mereu în viață: GameData, GameState, Dialogue, SceneManager, Audio)
- └── harta curentă  ──(transfer)──►  altă hartă
-```
+Ground and foreground images retain their pixel sizes and offsets; they are not
+stretched into tile dimensions. Invisible tile flags determine four-direction
+passage, including reverse-direction checks, boundaries, events and through flags.
+Region 1 restricts NPC movement. Rendering uses nearest filtering and native
+character frames derived from 3×4 or 12×8 sheet layouts, including exceptional sizes.
+Default zoom is 2; the used ZoomOut command applies reciprocal zoom over its duration.
 
-`Main` cere `SceneManager` să încarce harta de start; fiecare hartă își instanțiază
-Player-ul + evenimentele; interacțiunile pornesc `EventRunner`, care poate chema
-`DialogueManager`, poate schimba `GameState`, sau poate cere `SceneManager` un
-transfer.
+Pictures occupy a screen-space CanvasLayer. Blend 3 uses a screen-blend shader.
+The source typo AIVISIBILE remains a no-op. No unrelated PSX effects are enabled.
 
----
+## Checkpoints
 
-## 3. Autoload-uri (Singletons)
+Schema version 1 stores map/player position and facing, switch/variable/self-switch
+dictionaries, item counts, language, current-map event positions/facing, and zoom.
+Writes use a temporary file then rename. Corrupt or incompatible data is rejected.
+Settings are separate. A checkpoint normalizes interpolation and restarts autonomous
+event routes; it does not serialize active interpreter stacks or arbitrary pictures.
+Active dialogue, foreground tasks, QTE, timer game and ending maps are disallowed.
+Original RPG Maker save compatibility is not implemented.
 
-Le adaugi în `Project Settings → Autoload`. Ordinea contează (dependențele întâi).
+## Generation contract
 
-| Autoload | Rol | Persistă în save? |
-|---|---|---|
-| `GameData` | citește JSON-urile din `data/` (actori, iteme, hărți, traduceri) o singură dată; **read-only** | nu (e conținut static) |
-| `GameState` | stare mutabilă: switches, variables, self-switches, party, inventar, gold, limbă, poziția playerului | **da** |
-| `DialogueManager` | primește o coadă de mesaje, afișează `DialogueBox`, gestionează typewriter + alegeri | nu |
-| `SceneManager` | schimbă hărțile (fade in/out), ține minte harta curentă | parțial (harta curentă) |
-| `AudioManager` | redă BGM (loop) + SE, cu volum din 0–100 → dB | nu |
-
-**De ce singletons:** dialogul, starea și tranzițiile de hartă trebuie accesibile
-din orice eveniment/scenă, fără să le pasezi prin noduri.
-
----
-
-## 4. Node tree pe scene
-
-### Harta (`world/Map.tscn`)
-```
-Map (Node2D)
-├── Ground (Sprite2D)                 # !ground<id>, centered=false, z_index=-10
-├── Entities (Node2D, y_sort_enabled = true)
-│   ├── Event, Event, …               # personaje/obiecte interactive
-│   └── Player (instanță)
-├── Foreground (Sprite2D)             # !par<id>, z_index=100 (deasupra playerului)
-├── Collisions (Node2D)               # TU: StaticBody2D-uri / TileMapLayer de coliziune
-└── (BGM: îl pornește map.gd prin AudioManager)
-```
-- `y_sort_enabled` pe `Entities` = personajele din spate se desenează în spate.
-- Camera: `Camera2D` copil al Player-ului, `zoom = (2,2)`, cu `limit_*` pe
-  marginile hărții.
-
-### Player (`actors/player/Player.tscn`)
-```
-Player (CharacterBody2D)              # mișcare liberă  ▸ SAU ▸  Node2D (grid-based)
-├── Sprite (AnimatedSprite2D)         # animații idle/walk × 4 direcții
-├── CollisionShape2D                  # doar la mișcare liberă
-└── Interact (Area2D)                 # zona din fața playerului pt „vorbește”
-```
-
-### Caseta de dialog (`ui/dialogue/DialogueBox.tscn`)
-```
-DialogueBox (CanvasLayer)             # deasupra hărții, neafectat de zoom
-└── Root (Control, anchor bottom-wide)
-    └── Panel (PanelContainer)
-        └── HBox
-            ├── Portrait (TextureRect)        # opțional
-            └── VBox
-                ├── NameLabel (Label)
-                └── Text (RichTextLabel)      # typewriter: visible_ratio 0→1
-```
-
-### Meniu / Inventar (`ui/menu/`, `ui/inventory/`)
-```
-PauseMenu (CanvasLayer)
-└── Control
-    ├── PartyStatus (VBox: HP/MP/nivel din GameState)
-    └── ItemList (din GameState.inventory + GameData.items)
-```
-
----
-
-## 5. Formatul datelor (dacă folosești JSON extern)
-
-- **Baze de date** (`data/actors.json`, `items.json`…): dicționar cheiat pe id
-  string: `{ "1": {...}, "2": {...} }`.
-- **Traduceri**: cheia = textul-sursă (engleză), valoarea = `{"Romanian": "...",
-  "Russian": "..."}`. La afișare: `text_tradus = msg.get(text, {}).get(limbă, text)`.
-- **Dialoguri**: fie array direct în scenă, fie fișiere `data/dialogues/*.json` de
-  forma `[{ "speaker": "...", "portrait": "actor1", "text": "..." }, ...]`.
-
----
-
-## 6. Ordinea de implementare (pas cu pas)
-
-1. **Player movement** (grid-based sau liber pe 8 direcții, idle/walk).
-2. **Sistemul de dialog** (array/JSON, portret, typewriter, avans cu tastă).
-3. **UI** (meniu principal, casete text stil RPG, inventar de bază).
-4. **Evenimente / cutscene** (interpretor de comenzi: mișcare NPC, așteptări,
-   set switch/variabile, condiții).
-5. Extra: save/load, tranziții de hartă, schimbare de limbă.
-
-Fiecare pas: cod comentat + explicația structurii de noduri, un sistem o dată.
-```
+prepare_runtime.py reuses the existing extractors. Generated database/map JSON and
+asset/hash manifests may be overwritten; scripts/scenes never are. Asset lookup
+uses original names with SHA256 deduplication. legacy/ is read-only by project policy.
+The generation pipeline and tests do not depend on the unrelated MCP connection.

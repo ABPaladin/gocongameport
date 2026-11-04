@@ -6,6 +6,19 @@ var active_page: Dictionary = {}
 var page_index = -1
 var runner
 var autonomous_ticks = 0
+var locked = false
+var prelock_direction = 2
+
+func lock(facing: int) -> void:
+	if locked: return
+	locked = true
+	prelock_direction = direction
+	if not direction_fix: direction = facing
+
+func unlock() -> void:
+	if not locked: return
+	locked = false
+	if not direction_fix: direction = prelock_direction
 
 func setup(event_data: Dictionary, _y_offset: int = 0) -> void:
 	data = event_data
@@ -54,14 +67,21 @@ func trigger_type() -> int: return int(active_page.get("trigger", -1))
 func command_list() -> Array: return active_page.get("list", [])
 
 func tick() -> void:
+	var was_moving = moving()
 	super.tick()
-	if active_page.is_empty() or moving() or route_forced: return
+	if was_moving: autonomous_ticks = 0
+	if active_page.is_empty() or moving() or route_forced or route_wait > 0: return
+	if locked or (world.foreground_runner != null and world.foreground_runner.event == self): return
 	autonomous_ticks += 1
 	if autonomous_ticks <= (5 - int(active_page.moveFrequency)) * 30: return
-	autonomous_ticks = 0
 	match int(active_page.moveType):
-		1: step([2,4,6,8][GameState.rng.randi_range(0,3)])
+		1:
+			match GameState.rng.randi_range(0,5):
+				0,1: step([2,4,6,8][GameState.rng.randi_range(0,3)])
+				2,3,4: step(direction)
+				5: autonomous_ticks = 0
 		2:
 			var difference = world.player.tile - tile
 			if abs(difference.x) > abs(difference.y): step(6 if difference.x > 0 else 4)
 			else: step(2 if difference.y > 0 else 8)
+		3: route_tick()

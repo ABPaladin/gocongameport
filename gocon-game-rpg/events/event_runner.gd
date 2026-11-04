@@ -29,7 +29,7 @@ func _init(map_node, source_event, list: Array = []) -> void:
 func cancel() -> void: done = true
 
 func fail(message: String) -> void:
-	var location = "map=%d event=%d page=%d command=%d" % [world.map_id, event.event_id if event != null else 0, page_index + 1, pc]
+	var location = "map=%d event=%d page=%d command=%d" % [source_map_id, source_event_id, page_index + 1, pc]
 	diagnostics.append(location + ": " + message)
 	push_error(diagnostics.back())
 	done = true

@@ -2,6 +2,7 @@ extends Node
 var bgm: AudioStreamPlayer
 var effects: Array = []
 var current_bgm = ""
+var current_bgm_data: Dictionary = {}
 var music_volume = 0.8
 var sound_volume = 0.8
 var fade: Tween
@@ -18,6 +19,7 @@ func apply_audio(player: AudioStreamPlayer, data: Dictionary, volume: float) -> 
 	player.pitch_scale = maxf(0.01, float(data.get("pitch", 100)) / 100.0)
 
 func play_bgm(data: Dictionary) -> void:
+	current_bgm_data = data.duplicate()
 	if is_instance_valid(fade): fade.kill()
 	var name = str(data.get("name", ""))
 	if name.is_empty():
@@ -31,6 +33,10 @@ func play_bgm(data: Dictionary) -> void:
 	bgm.stream = load(GameData.asset("bgm", name))
 	if bgm.stream is AudioStreamOggVorbis: bgm.stream.loop = true
 	if playback_enabled: bgm.play()
+
+func set_music_volume(value: float) -> void:
+	music_volume = value
+	apply_audio(bgm, current_bgm_data, music_volume)
 
 func play_se(data: Dictionary) -> void:
 	if str(data.get("name", "")).is_empty(): return

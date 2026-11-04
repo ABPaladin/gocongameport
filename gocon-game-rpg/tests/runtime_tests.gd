@@ -14,6 +14,48 @@ func _ready() -> void:
 func command(code: int, p: Array = [], indent: int = 0) -> Dictionary:
 	return {"code":code, "parameters":p, "indent":indent}
 
+func test_passage() -> void:
+	var fixture = GameMap.new()
+	fixture.width = 3
+	fixture.height = 3
+	fixture.flags = [0,15,1,8,16]
+	fixture.map_data = {"scrollType":0,"layers":[],"regions":[0,0,0,0,0,0,0,0,0]}
+	for z in 4: fixture.map_data.layers.append([0,0,0,0,0,0,0,0,0])
+	var player = MapActor.new()
+	player.tile = Vector2i(1,1)
+	fixture.player = player
+	check(fixture.can_step(player,2),"Open tile passage")
+	fixture.map_data.layers[3][4] = 2
+	check(not fixture.can_step(player,2) and fixture.can_step(player,8),"Directional source passage")
+	fixture.map_data.layers[3][4] = 0
+	fixture.map_data.layers[3][7] = 3
+	check(not fixture.can_step(player,2),"Reverse destination passage")
+	player.through = true
+	check(fixture.can_step(player,2),"Through bypasses passage")
+	player.tile = Vector2i(1,2)
+	check(not fixture.can_step(player,2),"Through still respects map bounds")
+	player.through = false
+	player.tile = Vector2i(1,1)
+	fixture.map_data.layers[3][7] = 4
+	fixture.map_data.layers[2][7] = 1
+	check(not fixture.can_step(player,2),"Star tile defers to lower blocking layer")
+	fixture.map_data.layers[2][7] = 0
+	var npc = GameEvent.new()
+	npc.tile = Vector2i(1,2)
+	npc.active_page = {"trigger":0}
+	fixture.events.append(npc)
+	check(not fixture.can_step(player,2),"Normal event blocks player")
+	npc.through = true
+	check(fixture.can_step(player,2),"Through event does not block player")
+	npc.through = false
+	npc.tile = Vector2i(0,1)
+	fixture.map_data.regions[6] = 1
+	check(not fixture.can_step(npc,2),"NPC region restriction")
+	check(not fixture.can_step(npc,6),"Player occupancy blocks NPC")
+	npc.free()
+	player.free()
+	fixture.free()
+
 func execute(list: Array, event = null, ticks: int = 1000):
 	var world = SceneManager.current_map
 	var runner = EventRunner.new(world, event, list)
@@ -28,8 +70,13 @@ func execute(list: Array, event = null, ticks: int = 1000):
 	return runner
 
 func run() -> void:
+	test_passage()
+	SceneManager.transitions_enabled = false
 	AudioManager.playback_enabled = false
 	DialogueManager.automation = true
+	# Advance simulation explicitly, including maps created by deferred transfers.
+	SceneManager.screen_changed.connect(func():
+		if is_instance_valid(SceneManager.current_map): SceneManager.current_map.set_physics_process(false))
 	SceneManager.bind(self)
 	SceneManager.new_game()
 	var world = SceneManager.current_map
@@ -149,6 +196,7 @@ func run() -> void:
 	execute(qte.command_list(),qte)
 	qte.refresh_page()
 	check(qte.page_index == 1, "QTE switches to active parallel page")
+	check(not SaveManager.checkpoint_allowed(), "Active QTE cannot save transient interpreter state")
 	for tick in 1000:
 		world._physics_process(1.0 / 60)
 		if qte.runner != null and qte.runner.wait_frames > 0 and GameState.get_variable(2) >= 450 and GameState.get_variable(2) < 500:
@@ -183,6 +231,64 @@ func run() -> void:
 	DirAccess.remove_absolute(SaveManager.save_path)
 	check(SaveManager.read_save().is_empty(), "Missing save handled")
 	SaveManager.save_path = SaveManager.SAVE_PATH
+	# Continue the earned QTE checkpoint through the three real trivia rewards.
+	for entry in [[1,5,2],[2,1,0],[4,3,1]]:
+		SceneManager.load_map(entry[0],Vector2i(10,10))
+		world = SceneManager.current_map
+		world.set_physics_process(false)
+		var npc = world.character(entry[1],null)
+		var before = GameState.item_count(1)
+		DialogueManager.automated_choice = (entry[2] + 1) % 3
+		execute(npc.command_list(),npc)
+		check(GameState.item_count(1) == before,"Trivia wrong answer does not reward map %d" % entry[0])
+		DialogueManager.automated_choice = entry[2]
+		execute(npc.command_list(),npc)
+		npc.refresh_page()
+		execute(npc.command_list(),npc)
+		check(GameState.item_count(1) == before + 1,"Trivia correct answer rewards once map %d" % entry[0])
+	SceneManager.load_map(7,Vector2i(16,20))
+	world = SceneManager.current_map
+	world.set_physics_process(false)
+	DialogueManager.automated_choice = 0
+	for seed_value in 20:
+		GameState.rng.seed = seed_value
+		var rps = world.character(46,null)
+		execute(rps.command_list(),rps)
+		rps.refresh_page()
+		if GameState.get_self_switch(7,46,"A"): break
+	check(GameState.item_count(1) == 5,"Five rewards earned from actual QTE/trivia/RPS lists")
+	SceneManager.load_map(8,Vector2i(16,20))
+	world = SceneManager.current_map
+	world.set_physics_process(false)
+	execute(world.character(1,null).command_list(),world.character(1,null))
+	# Fire through the real action event; moving targets and coordinate tests
+	# produce all hit flags without injected wins or target repositioning.
+	for tick in 1200:
+		if not GameState.get_switch(11) and not world.input_locked():
+			world.trigger_at(Vector2i(16,19),[0],true)
+		world._physics_process(1.0 / 60)
+		if world.transfer_pending: break
+	await get_tree().process_frame
+	check(GameState.item_count(1) == 6 and GameState.get_variable(1) == 6,"All six reward paths synchronize item and progression variable")
+	SceneManager.load_map(4,Vector2i(10,10))
+	world = SceneManager.current_map
+	world.set_physics_process(false)
+	execute(world.character(16,null).command_list(),world.character(16,null))
+	await get_tree().process_frame
+	check(SceneManager.current_map.map_id == 13,"Six-stamp gate reaches ending")
+	world = SceneManager.current_map
+	world.set_physics_process(false)
+	for tick in 10:
+		world._physics_process(1.0 / 60)
+		if world.transfer_pending: break
+	await get_tree().process_frame
+	world = SceneManager.current_map
+	world.set_physics_process(false)
+	for tick in 3: world._physics_process(1.0 / 60)
+	check(world.map_id == 12 and GameState.transparent and not GameState.virtual_visible,"Ending reaches final picture and hides player/controls")
+	check(PictureManager.pictures.has(1),"Ending picture exists")
+	execute([command(353),command(0)])
+	check(SceneManager.screen == "game_over" and SceneManager.paused,"Game Over stops gameplay")
 	print("RUNTIME TESTS: %d checks, %d failures" % [checks, failures.size()])
 	for failure in failures: print("FAIL: " + failure)
 	SceneManager.title()

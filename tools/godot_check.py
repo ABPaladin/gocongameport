@@ -12,4 +12,8 @@ if __name__ == '__main__':
                             capture_output=True, text=True, encoding='utf-8', errors='replace', timeout=180)
     print(result.stdout)
     print(result.stderr)
+    evidence = ROOT / 'artifacts/validation'
+    evidence.mkdir(parents=True, exist_ok=True)
+    name = 'runtime' if any('runtime_tests' in arg for arg in args) else 'import'
+    (evidence / (name + '.log')).write_text(result.stdout + result.stderr, encoding='utf-8')
     sys.exit(result.returncode or (1 if 'ERROR:' in result.stderr or 'Parse Error' in result.stderr else 0))

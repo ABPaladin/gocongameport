@@ -7,6 +7,8 @@ var last_error = ""
 
 func checkpoint_allowed() -> bool:
 	var map = SceneManager.current_map
+	# Active QTE pages contain transient pictures/waits that are not serialized.
+	if GameState.map_id == 7 and GameState.get_self_switch(7,2,"A") and not GameState.get_self_switch(7,2,"D"): return false
 	return is_instance_valid(map) and not SceneManager.transition and not DialogueManager.is_busy and map.foreground_runner == null and not GameState.timer_running and GameState.map_id not in [8,12,13] and not map.player.moving()
 
 func save_checkpoint() -> bool:
@@ -14,6 +16,10 @@ func save_checkpoint() -> bool:
 		last_error = "Save at a quiet checkpoint outside a minigame."
 		return false
 	var data = {"version":VERSION, "map":GameState.map_id, "x":GameState.player_tile.x, "y":GameState.player_tile.y, "direction":GameState.facing, "switches":GameState.switches, "variables":GameState.variables, "self_switches":GameState.self_switches, "items":GameState.items_held, "language":GameState.language}
+	data.events = {}
+	for event in SceneManager.current_map.events:
+		data.events[str(event.event_id)] = {"x":event.tile.x,"y":event.tile.y,"direction":event.direction}
+	data.zoom = SceneManager.current_map.camera.zoom.x
 	var file = FileAccess.open(save_path + ".tmp", FileAccess.WRITE)
 	if file == null:
 		last_error = "Cannot write save: %s" % FileAccess.get_open_error()
@@ -46,6 +52,17 @@ func read_save() -> Dictionary:
 	if int(data.get("x", -1)) < 0 or int(data.x) >= int(map.width): return {}
 	if int(data.get("y", -1)) < 0 or int(data.y) >= int(map.height): return {}
 	if int(data.get("direction", 0)) not in [2,4,6,8]: return {}
+	if data.has("events"):
+		if not data.events is Dictionary: return {}
+		for event in data.events.values():
+			if not event is Dictionary: return {}
+			for key in ["x","y","direction"]:
+				if not event.get(key) is float and not event.get(key) is int: return {}
+			if int(event.direction) not in [2,4,6,8]: return {}
+			if int(event.x) < 0 or int(event.y) < 0 or int(event.x) >= int(map.width) or int(event.y) >= int(map.height): return {}
+	if data.has("zoom"):
+		if not data.zoom is float and not data.zoom is int: return {}
+		if float(data.zoom) <= 0 or float(data.zoom) > 10: return {}
 	return data
 
 func load_checkpoint() -> bool:
@@ -61,6 +78,11 @@ func load_checkpoint() -> bool:
 	GameState.language = str(data.get("language", "English"))
 	PictureManager.clear()
 	SceneManager.load_map(int(data.map), Vector2i(int(data.x), int(data.y)), int(data.direction))
+	for key in data.get("events", {}):
+		var event = SceneManager.current_map.character(int(key), null)
+		var saved: Dictionary = data.events[key]
+		if event != null: event.locate(Vector2i(int(saved.x),int(saved.y)),int(saved.direction))
+	SceneManager.current_map.camera.zoom = Vector2.ONE * float(data.get("zoom",2))
 	return true
 
 func save_settings() -> void:

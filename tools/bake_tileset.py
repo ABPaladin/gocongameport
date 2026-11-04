@@ -19,8 +19,8 @@ Two details specific to THIS project:
     for completeness but aren't exercised here.
 
 Outputs:
-  godot_project/assets/tilesets/tileset_atlas.png   - the baked atlas
-  godot_project/data/tile_atlas.json                - tileId -> [col,row] map
+  gocon-game-rpg/assets/tilesets/tileset_atlas.png   - the baked atlas
+  gocon-game-rpg/data/tile_atlas.json               - tileId -> [col,row] map
 
 Run:  python tools/bake_tileset.py
 """

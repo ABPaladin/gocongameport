@@ -1,29 +1,87 @@
-# Test report
+# Test report — 2026-11-04
 
-No migration gameplay tests have passed yet. Static baseline inspection completed.
-2026-11-03: python -B -m unittest discover -s tests: 4/4 PASS.
-Checks: immutable source SHA256 manifest, 13 maps' command/plane equality,
-102 asset references resolve, original message/choice translations preserved.
-git diff --exit-code -- legacy: PASS (no changes).
-MCP diagnostics confirmed the wrong project root; no mutations were sent.
-Tests and exact results will be recorded as implementation progresses.
+## Current results
 
-Godot 4.7.2 headless: startup smoke passed. Runtime suite now has 151 passing
-checks: all 13 maps, branch exclusion, choice selection, loop/break/budget,
-route waits, picture motion, timers, translation lookups, self-switch conditions,
-opcode declarations, actual intro, source-identity transfer continuation,
-rock-paper-scissors random outcomes and duplicate-reward prevention,
-projectile timeout/reset and win-result reward/transfer.
-This is synthetic execution of real content, not a human full playthrough.
-Initial intro test exposed stale autorun restart; fixed page-refresh ordering.
-Accelerated logic tests exposed OGG mixer cleanup warnings when many audio
-streams were replaced within a tight simulation loop. The logic suite now
-loads resources without starting the real mixer; separate real-time audio
-validation remains required. The checker now fails on any engine ERROR.
+| Check | Actual result |
+|---|---|
+| Python content suite | 5 tests PASS |
+| Headless Godot runtime suite | 215 assertions PASS, zero engine errors |
+| Godot editor import / script parse | PASS with MCP addon disabled in this project |
+| Windows release export | Built with installed 4.7.2 templates |
+| Windows exported startup | PASS, headless title startup for 120 frames |
+| Web release export | Built, single-threaded GL Compatibility |
+| Original MV browser startup | PASS in installed Edge |
+| Exported Web gameplay smoke | Intro via keyboard, movement, pause, checkpoint, reload, Continue exercised |
+| Web persistent storage | checkpoint.json confirmed in IndexedDB after saving |
+| Web audio | Running AudioContext and measured nonzero output peak 0.686; no audible-listening claim |
+| Browser diagnostics | No page/console errors in tested original/export sessions |
+| legacy/ integrity | SHA256 manifest tests and git diff against baseline PASS |
 
-2026-11-04: runtime suite 166/166 PASS, no engine errors or cleanup warnings.
-Added actual QTE timed-input success and reward-page locking; checkpoint write,
-atomic replacement, restoration, missing/corrupt/unknown-version rejection.
-Four Python content tests pass; git diff against baseline legacy is empty.
-Screen blend-mode mapping was corrected (MV mode 3 is screen, not multiply).
-Visual screen-shader output and real-time audio are not yet verified.
+## Automated behavior coverage
+
+The runtime suite loads all 13 maps and tests:
+directional source/destination passage, star layers, bounds even with through,
+event/player occupancy, NPC region restriction; initial state and Map006 spawn;
+branch exclusion, selected choices, loops/breaks and bounded infinite loops;
+forced-route waiting/restoration, pictures, timer, translation lookup and page conditions;
+actual intro movement/dialogue/page refresh; transfer continuation retaining original
+self-switch identity; RPS seeded win/loss/tie paths and duplicate reward prevention;
+projectile start, 20-second timeout/reset and win/reward transfer;
+timed-input QTE success and locked reward page; checkpoint replacement/restoration,
+missing/corrupt/unknown-version rejection and active-QTE save rejection.
+
+The progression test continues a QTE-earned checkpoint through three actual trivia
+events (wrong, correct and repeat outcomes), RPS and the projectile game, obtaining
+six matching item/variable stamps and traversing Map004 → Map013 → Map012.
+The final projectile progression test repeatedly activates the actual firing event
+while targets move and source coordinate comparisons run; it does not inject
+defeated-target flags. An earlier isolated win-result test deliberately uses flags.
+Game Over is separately asserted.
+
+These are accelerated, deterministic executions of source event lists. They are not
+a continuous human navigation playthrough or proof of every visual/timing detail.
+The accelerated suite disables real audio mixing and fades; separate browser audio
+measurement proves nonzero real-time Web output after a user gesture.
+
+Python validates original hashes, all map command lists and planes, full translation
+dictionaries, manifest files, critical command/character assets, tile flag bounds,
+and direct transfer destinations.
+
+## Visual inspection
+
+Original and exported Map006 screenshots were synchronized at the settled first
+intro message: tile (14,39), zoom 2. World/player framing and painted-layer placement
+match visually. Initial mismatched screenshots were taken at different interpolation
+times and were not treated as evidence of a camera bug.
+HUD placement, dialogue height/padding, speaker-box size and unsupported advance
+glyph were corrected. The original arrow is now taken from the window skin.
+The window pattern and name color remain approximate; native menu design differs.
+
+The Web Continue screenshot shows the player restored to the moved location without
+replaying the intro. A first attempt tried saving mid-step, correctly refused, and
+exposed a menu overflow; the error label was fixed. The passing persistence run
+waits for movement to stop. Language selection screenshots are being reviewed;
+corrected pointer selections now show Romanian "Salut!" and Russian "Привет!"
+with rendered glyphs. Initial keyboard-selection screenshots were discarded as
+locale evidence because the dropdown had not selected the intended row.
+
+## Evidence
+
+Ignored artifacts are intentionally not committed:
+
+- artifacts/validation/runtime.log and import.log
+- artifacts/browser/results.json
+- artifacts/browser/original_new_game.png and godot_new_game.png
+- artifacts/browser/godot_pause.png, godot_save.png, godot_reload_title.png, godot_continue.png
+- artifacts/browser/godot_Romanian.png and godot_Russian.png (verify selected setting)
+- builds/windows/export.log and startup.log
+- builds/web/export.log
+
+## Remaining verification
+
+Windows interactive gameplay and persistence; Map007/Map008/ending visual comparisons;
+QTE failure/retry edge cases; repeated projectile attempts; touch/gamepad hardware;
+every translated message layout; real-time behavior across frame rates and resizing;
+listening/fade quality; full uninterrupted end-to-end navigation.
+No original MV save import exists. Licensing is not established by these tests.
+No claim is made that all migration acceptance criteria are complete.

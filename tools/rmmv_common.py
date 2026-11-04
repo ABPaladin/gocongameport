@@ -3,7 +3,7 @@ Shared helpers for the RPG Maker MV -> Godot 4 extraction scripts.
 
 The whole extraction pipeline lives in `tools/`. Each script reads the raw
 RPG Maker MV JSON from `legacy/data/` and writes clean, Godot-ready JSON into
-`godot_project/data/`.
+`gocon-game-rpg/data/`.
 
 Design notes (why things are the way they are):
   * RPG Maker arrays are 1-indexed: element 0 is always `null` (a placeholder
@@ -35,7 +35,7 @@ def load_rm(name):
 
 
 def save_out(rel_path, obj):
-    """Write `obj` as pretty UTF-8 JSON into godot_project/data/<rel_path>."""
+    """Write `obj` as pretty UTF-8 JSON into gocon-game-rpg/data/<rel_path>."""
     path = os.path.join(OUT_DATA, rel_path)
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:

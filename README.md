@@ -1,91 +1,62 @@
-# Gocon Game — RPG Maker MV → Godot 4 port
+# Gocon Game — Godot migration
 
-A phase-by-phase migration of the RPG Maker MV project in `legacy/` to a
-maintainable Godot 4 project in `godot_project/`.
+The original RPG Maker MV game is preserved in `legacy/`. The playable port is
+`gocon-game-rpg/project.godot`, using GDScript, GL Compatibility rendering,
+816×624 presentation, a 32-pixel movement grid, and native-size painted maps.
 
-## What this game actually is (key findings)
+Implementation and validation are ongoing; this is not yet a release parity claim.
+See [TEST_REPORT.md](TEST_REPORT.md), [COMPATIBILITY_MATRIX.md](COMPATIBILITY_MATRIX.md)
+and [MIGRATION_PROGRESS.md](MIGRATION_PROGRESS.md) for evidence and outstanding work.
 
-- **Exploration / dialogue game, no battles.** The database has 1 actor
-  (Go-Chan), 1 class, 2 items (Stamp, QuestList) and **zero** skills, enemies,
-  troops, weapons, armors or states. There is no RPG Maker battle system in use.
-- **Parallax-mapped.** The visible art is *not* in tiles. Each map's picture is
-  hand-painted in `img/parallaxes/!ground<id>.png` (drawn below the player) and
-  `!par<id>.png` (drawn above the player). The RPG Maker tile layers are an
-  **invisible collision map** — walls are painted with an impassable autotile,
-  floor with a passable one. So the Godot side renders sprite layers, not a
-  visible TileMap, and derives a collision grid from the tile passability flags.
-- **32×32 tiles** (the "Change Tile Size" plugin overrides the default 48), with
-  a **2× camera zoom** (SRD_CameraCore). Character sprites keep their native
-  48×48 frames, so characters are ~1.5 tiles tall.
-- **Three languages:** English (authoring language) + Russian + Romanian, via
-  SRD_TranslationEngine, which matches the full English message block and swaps
-  it. `translations.json` preserves that model.
-- Maps 12 & 13 are **ending/credits screens** driven by parallel events that
-  show a full-screen picture; they aren't walkable.
+## Run
 
-See the Phase 0 report in the conversation for the full plugin/asset breakdown.
+Open `gocon-game-rpg/project.godot` in Godot 4.7.2 and press F6 on Main.tscn,
+or F5. The installed version used for validation is 4.7.2.stable.steam.ed1daf0bf.
+Choose New Game; the original Map006 introduction starts at (14,41).
+Arrow keys move; Shift dashes where permitted; Enter/Space/Z interact;
+Escape/X opens the pause menu. Click-to-move and touch buttons are implemented.
+Gamepad bindings exist but hardware verification remains pending.
 
-## Repository layout
+The menu exposes English/Romanian/Russian, music/sound volume, fullscreen,
+inventory, and checkpoint saving. Saves use Godot's application user-data
+directory; browser saves use browser persistent storage. Save outside dialogue,
+movement, and minigames. Original RPG Maker saves are not imported.
 
-```
-legacy/                     the original RPG Maker MV project (untouched)
-tools/                      Python extraction + baking scripts (Phase 1/2)
-  rmmv_common.py            shared load/save helpers
-  extract_db.py            → data/*.json  (actors, items, system, ...)
-  extract_maps.py          → data/maps/*.json (+ collision, overlays)
-  extract_translations.py  → data/translations.json
-  bake_tileset.py          → assets/tilesets/ + data/tile_atlas.json (collision ref)
-  preview_map.py            dev-only: renders a reference PNG of a map
-godot_project/              the Godot 4 project
-  data/                     extracted, Godot-ready JSON (loaded at runtime)
-  assets/                   img + audio copied from legacy (ogg only)
-  autoload/                 GameDatabase, GameState (singletons)
-  scripts/                  CharacterSprite, GameEvent, Player, GameMap
-  scenes/                   main.tscn / main.gd (entry point)
+## Validate and export
+
+From this repository, with Python 3 and Godot installed:
+
+```powershell
+python -B -m unittest discover -s tests
+python -B tools/godot_check.py
+python -B tools/godot_check.py res://tests/runtime_tests.tscn
+python -B tools/build_exports.py
+python -B tools/export_smoke.py
+python -B tools/browser_smoke.py
 ```
 
-## Re-running the extraction
+Set `GODOT_BIN` if Godot is not at the Steam path used by tools/godot_check.py.
+Browser testing additionally requires Playwright and installed Edge; the current
+workspace has isolated, ignored dependencies in `.test-deps/`.
+Builds are ignored: `builds/windows/GoconGame.exe` and `builds/web/index.html`.
+Run the EXE directly; serve Web over HTTP, for example
+`python -m http.server 8000 --directory builds/web`, then open localhost:8000.
+Opening the HTML with a file URL is unsupported.
 
-Requires Python 3 + Pillow (`pip install pillow`). From the repo root:
+## Content and architecture
 
-```
-python tools/extract_db.py
-python tools/extract_maps.py
-python tools/extract_translations.py
-python tools/bake_tileset.py
-python tools/preview_map.py 6      # optional: reference render of map 6
-```
+`tools/prepare_runtime.py` deterministically regenerates JSON under
+`gocon-game-rpg/data/` and resolves byte-identical assets by manifest. It never
+rewrites hand-authored scripts/scenes or legacy files. Maps retain original
+event command lists, IDs, tile layers, region data, and page conditions.
+The runtime interprets this project's commands; it is not a universal MV engine.
+There is no battle system to migrate.
 
-All scripts read from `legacy/data` and write into `godot_project/data`
-(or `assets`). They're safe to re-run; output is deterministic.
+[ARCHITECTURE.md](ARCHITECTURE.md) describes runtime ownership.
+[HANDOFF.md](HANDOFF.md) contains continuation instructions.
+The bundled Godot MCP editor plugin is disabled in this project's configuration
+because the available MCP connection belongs to Cassette-LD60. That unrelated
+project has not been changed. Use the CLI until correct-project binding is verified.
 
-## Opening in Godot
-
-Targets **Godot 4.3+** (uses the `gl_compatibility` renderer and modern
-Camera2D API). Open `godot_project/project.godot` and press Play. First open
-will import the PNG/OGG assets.
-
-- Move: arrow keys. Interact: Space / Enter / Z. Menu: Esc / X (menu is Phase 3).
-
-## Phase status
-
-- **Phase 0** — investigation + plan. ✅
-- **Phase 1** — data extraction (db, maps+collision, translations). ✅
-- **Phase 2** — Godot scaffold, GameDatabase autoload, assets, parallax map
-  rendering, walkable collision. ✅
-- **Phase 3** — event runner: dialogue + faces + EN/RU/RO, choices, conditional
-  branches, switches/variables/self-switches, items, common events, transfers,
-  SE/wait; action + player-touch + autorun triggers. ✅
-- **Handed off** to hand-authoring — see **[HANDOFF.md](HANDOFF.md)** for the
-  full developer guide (data format, runtime architecture, how to extend the
-  event runner, what's stubbed, and gotchas).
-
-### Not yet built (see HANDOFF.md §6–7 for how to add them)
-- Move routes (205) / set-event-location (203) — cutscene movement.
-- Parallel events run only their first pass.
-- Pause menu, in-game language switch, save/load, title screen.
-- Pictures/balloons/screen effects; the custom "kyriu" dodge sequence.
-- Script (355) and plugin/camera (356) commands are ignored.
-
-> **`HANDOFF.md` is the primary doc going forward.** This README is just the
-> quick overview.
+Asset and third-party plugin redistribution rights remain a release prerequisite;
+existing files are not evidence of permission to release them under another engine.

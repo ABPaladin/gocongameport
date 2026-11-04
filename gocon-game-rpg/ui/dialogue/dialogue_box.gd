@@ -64,7 +64,7 @@ var _is_open: bool = false
 # Noduri create din cod
 var _nameplate: PanelContainer
 var _nameplate_label: Label
-var _arrow: Label
+var _arrow: TextureRect
 var _sfx: AudioStreamPlayer
 
 
@@ -142,9 +142,9 @@ func _build_skin() -> void:
 		sb.texture_margin_right = m
 		sb.texture_margin_bottom = m
 		# spaţiul dintre ramă şi conţinut
-		sb.content_margin_left = m
+		sb.content_margin_left = 18
 		sb.content_margin_top = m - 6
-		sb.content_margin_right = m
+		sb.content_margin_right = 18
 		sb.content_margin_bottom = m - 6
 		# Repetăm textura în loc s-o întindem: fundalul e o culoare plată, iar
 		# liniile sunt de 1px — aşa rămân crocante la orice mărime a casetei.
@@ -267,11 +267,13 @@ func _build_nameplate() -> void:
 
 ## Săgeata ▼ care clipeşte când mesajul s-a terminat de scris.
 func _build_arrow() -> void:
-	_arrow = Label.new()
-	_arrow.text = "▼"
-	_arrow.add_theme_font_size_override("font_size", 22)
+	_arrow = TextureRect.new()
+	var atlas = AtlasTexture.new()
+	atlas.atlas = load(SKIN_PATH)
+	atlas.region = Rect2(144, 108, 24, 12)
+	_arrow.texture = atlas
+	_arrow.stretch_mode = TextureRect.STRETCH_KEEP_CENTERED
 	# Centrat jos, ca în jocul original.
-	_arrow.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_arrow.anchor_left = 0.0
 	_arrow.anchor_right = 1.0
 	_arrow.anchor_top = 1.0
@@ -306,8 +308,13 @@ func show_message(text: String, speaker: String = "", portrait_path: String = ""
 	var was_closed := not _is_open
 	panel.anchor_top = 0.0
 	panel.anchor_bottom = 0.0
-	panel.offset_top = [0.0, 227.0, 454.0][clampi(message_position, 0, 2)]
-	panel.offset_bottom = panel.offset_top + 170.0
+	panel.offset_top = [0.0, 222.0, 444.0][clampi(message_position, 0, 2)]
+	panel.offset_bottom = panel.offset_top + 180.0
+	_nameplate.anchor_top = 0
+	_nameplate.anchor_bottom = 0
+	_nameplate.offset_left = 0
+	_nameplate.offset_top = panel.offset_top - 72 if message_position > 0 else 180
+	_nameplate.offset_bottom = _nameplate.offset_top + 70
 	_is_open = true
 
 	# IMPORTANT: pregătim conţinutul ÎNAINTE de a arăta caseta.
@@ -324,7 +331,7 @@ func show_message(text: String, speaker: String = "", portrait_path: String = ""
 		_nameplate_label.text = speaker
 		_nameplate.visible = true
 		# lăţimea se potriveşte pe text
-		var w: float = _nameplate.get_combined_minimum_size().x
+		var w: float = maxf(150, _nameplate.get_combined_minimum_size().x)
 		_nameplate.offset_right = _nameplate.offset_left + w
 	else:
 		_nameplate.visible = false

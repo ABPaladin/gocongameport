@@ -31,7 +31,7 @@ func _ready() -> void:
 	sprite = Sprite2D.new()
 	add_child(sprite)
 	balloon_sprite = Sprite2D.new()
-	balloon_sprite.z_index = 10
+	balloon_sprite.z_index = 120
 	balloon_sprite.visible = false
 	add_child(balloon_sprite)
 
@@ -86,7 +86,7 @@ func tick() -> void:
 		balloon_sprite.region_rect.position.x = mini(int((76 - balloon_frames) / 8), 7) * 48
 		balloon_sprite.visible = balloon_frames > 0
 	if route_wait > 0: route_wait -= 1
-	elif not moving() and not route.is_empty(): route_tick()
+	elif not moving() and not route.is_empty() and route_forced: route_tick()
 
 func force_route(value: Dictionary) -> void:
 	if not route_forced:

@@ -9,8 +9,11 @@ func _ready() -> void:
 	ui.layer = 30
 	add_child(ui)
 	hud = Label.new()
-	hud.position = Vector2(610, 15)
-	hud.add_theme_font_size_override("font_size", 24)
+	hud.position = Vector2(639, 34)
+	hud.add_theme_font_override("font", load("res://assets/fonts/mplus-1m-regular.ttf"))
+	hud.add_theme_font_size_override("font_size", 30)
+	hud.add_theme_constant_override("outline_size", 4)
+	hud.add_theme_color_override("font_outline_color", Color(0,0,0,0.5))
 	ui.add_child(hud)
 	virtual_controls = Control.new()
 	ui.add_child(virtual_controls)
@@ -29,6 +32,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	hud.visible = SceneManager.screen == "game"
 	hud.text = "Stamp x %d" % GameState.item_count(1)
+	hud.modulate.a = 0.5 if DialogueManager.is_busy else 1.0
 	if GameState.timer_running: hud.text += "   %02d" % ceili(GameState.timer_frames / 60.0)
 	virtual_controls.visible = SceneManager.screen == "game" and not SceneManager.paused and GameState.virtual_visible and DisplayServer.is_touchscreen_available()
 
@@ -73,7 +77,8 @@ func rebuild_menu() -> void:
 		add_button(panel, "Resume", SceneManager.toggle_pause)
 		add_button(panel, "Save checkpoint", func():
 			var ok = SaveManager.save_checkpoint()
-			title.text = "Saved" if ok else SaveManager.last_error)
+			title.text = "Saved" if ok else "Save unavailable"
+			title.tooltip_text = SaveManager.last_error)
 		add_button(panel, "Inventory", func(): title.text = "Stamp: %d  QuestList: %d" % [GameState.item_count(1), GameState.item_count(2)])
 		add_button(panel, "Return to title", SceneManager.title)
 	else:
@@ -96,8 +101,7 @@ func rebuild_menu() -> void:
 		slider.value = AudioManager.music_volume if kind == "Music" else AudioManager.sound_volume
 		slider.value_changed.connect(func(value):
 			if kind == "Music":
-				AudioManager.music_volume = value
-				AudioManager.bgm.volume_db = linear_to_db(maxf(value, 0.0001))
+				AudioManager.set_music_volume(value)
 			else: AudioManager.sound_volume = value
 			SaveManager.save_settings())
 		panel.add_child(slider)

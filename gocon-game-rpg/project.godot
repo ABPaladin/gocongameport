@@ -33,7 +33,9 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot-mcp/plugin.cfg")
+; Keep the bundled plugin available, but do not bind its port while the MCP
+; connection belongs to the unrelated Cassette project.
+enabled=PackedStringArray()
 
 [physics]
 

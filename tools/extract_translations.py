@@ -9,7 +9,7 @@ lookup:
     display_text = translations["msg"].get(english_source, {}) \
                                       .get(current_language, english_source)
 
-Output shape (godot_project/data/translations.json):
+Output shape (gocon-game-rpg/data/translations.json):
     {
       "languages": ["English", "Russian", "Romanian"],   # English is the base
       "msg":    { "<english>": {"Russian": "...", "Romanian": "..."} },

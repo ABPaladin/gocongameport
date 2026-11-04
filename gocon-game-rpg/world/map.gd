@@ -82,7 +82,9 @@ func _physics_process(_delta: float) -> void:
 	update_indicator()
 	if foreground_runner != null:
 		foreground_runner.tick()
-		if foreground_runner.done: foreground_runner = null
+		if foreground_runner.done:
+			if is_instance_valid(foreground_runner.event): foreground_runner.event.unlock()
+			foreground_runner = null
 	# State changes may invalidate an autorun page. Refresh before starting any
 	# new task, otherwise the stale intro/reward page can restart in this tick.
 	if dirty_pages:
@@ -100,7 +102,7 @@ func trigger_at(at: Vector2i, triggers: Array, normal_priority: bool) -> void:
 	if input_locked(): return
 	for event in events:
 		if event.tile == at and event.trigger_type() in triggers and (event.priority == 1) == normal_priority:
-			if not event.direction_fix: event.direction = 10 - player.direction
+			event.lock(10 - player.direction)
 			foreground_runner = EventRunner.new(self, event)
 			return
 

@@ -16,8 +16,9 @@ var character_name = ""
 var character_index = 0
 var pattern = 1
 var original_pattern = 1
-var animation_tick = 0
+var animation_tick = 0.0
 var animation_phase = 1
+var stop_ticks = 0
 var route: Dictionary = {}
 var route_index = 0
 var route_wait = 0
@@ -46,6 +47,7 @@ func step(dir: int) -> bool:
 	if not direction_fix: direction = dir
 	if not world.can_step(self, dir): return false
 	tile = world.wrap_tile(tile + DIRECTIONS[dir])
+	stop_ticks = 0
 	return true
 
 func set_graphic(image: Dictionary) -> void:
@@ -54,6 +56,7 @@ func set_graphic(image: Dictionary) -> void:
 	direction = int(image.get("direction", 2))
 	pattern = int(image.get("pattern", 1))
 	original_pattern = pattern
+	animation_phase = pattern
 	var path = GameData.asset("characters", character_name)
 	sprite.texture = load(path) if not path.is_empty() else null
 	update_frame()
@@ -73,13 +76,14 @@ func tick() -> void:
 	var was_moving = moving()
 	if was_moving:
 		position = position.move_toward(Vector2(tile * 32), pow(2.0, move_speed) / 256.0 * 32.0)
-	if (was_moving and walking) or stepping:
-		animation_tick += 1
-		if animation_tick >= (9 - move_speed) * 3:
-			animation_tick = 0
-			animation_phase = (animation_phase + 1) % 4
-			pattern = [0, 1, 2, 1][animation_phase]
-	else: pattern = original_pattern
+	else: stop_ticks += 1
+	if moving() and walking: animation_tick += 1.5
+	elif stepping or pattern != original_pattern: animation_tick += 1
+	if animation_tick >= (9 - move_speed) * 3:
+		animation_tick = 0
+		if not stepping and stop_ticks > 0: animation_phase = original_pattern
+		else: animation_phase = (animation_phase + 1) % 4
+		pattern = [0, 1, 2, 1][animation_phase]
 	update_frame()
 	if balloon_frames > 0:
 		balloon_frames -= 1

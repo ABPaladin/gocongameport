@@ -1,5 +1,6 @@
 class_name GameMap
 extends Node2D
+const DEFAULT_ZOOM = 2.0
 @export var map_id = 6
 @export var collision_layer = 1
 @export var build_collision = true
@@ -15,7 +16,7 @@ var camera: Camera2D
 var foreground_runner
 var dirty_pages = true
 var transfer_pending = false
-var zoom_target = 2.0
+var zoom_target = DEFAULT_ZOOM
 var zoom_frames = 0
 var indicator: Sprite2D
 
@@ -46,14 +47,10 @@ func _ready() -> void:
 	player.set_graphic({"characterName":actor.characterName, "characterIndex":actor.characterIndex})
 	player.locate(GameState.player_tile, GameState.facing)
 	camera = Camera2D.new()
-	camera.position = Vector2(16, 16)
-	camera.zoom = Vector2(2, 2)
+	camera.zoom = Vector2.ONE * DEFAULT_ZOOM
 	camera.position_smoothing_enabled = false
-	camera.limit_left = 0
-	camera.limit_top = 0
-	camera.limit_right = width * 32
-	camera.limit_bottom = height * 32
-	player.add_child(camera)
+	add_child(camera)
+	update_camera()
 	indicator = Sprite2D.new()
 	indicator.texture = load(GameData.asset("system", "IconSet"))
 	indicator.region_enabled = true
@@ -79,6 +76,7 @@ func _physics_process(_delta: float) -> void:
 		zoom_frames -= 1
 	for event in events: event.tick()
 	player.tick()
+	update_camera()
 	update_indicator()
 	if foreground_runner != null:
 		foreground_runner.tick()
@@ -134,6 +132,18 @@ func update_indicator() -> void:
 func wrap_tile(at: Vector2i) -> Vector2i:
 	var scroll = int(map_data.scrollType)
 	return Vector2i(posmod(at.x, width) if scroll in [2,3] else at.x, posmod(at.y, height) if scroll in [1,3] else at.y)
+
+func camera_center(at: Vector2) -> Vector2:
+	# MV clamps its unzoomed 816x624 display rectangle, then CameraCore scales
+	# around the screen center. Camera2D's zoom-dependent limits differ at edges.
+	var center = at
+	var scroll = int(map_data.scrollType)
+	if scroll not in [2,3]: center.x = width * 16 if width * 32 < 816 else clampf(at.x,408,width * 32 - 408)
+	if scroll not in [1,3]: center.y = height * 16 if height * 32 < 624 else clampf(at.y,312,height * 32 - 312)
+	return center
+
+func update_camera() -> void:
+	camera.position = camera_center(player.position + Vector2(16,16))
 
 func valid(at: Vector2i) -> bool:
 	return at.x >= 0 and at.y >= 0 and at.x < width and at.y < height

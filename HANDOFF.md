@@ -5,7 +5,7 @@
 Repository: https://github.com/ABPaladin/gocongameport
 Branch: feature/godot-complete-port
 Baseline: b9d94901a8f15f4374bda5fc464b51529ddf44ac
-Data checkpoint: 621d82d. Core runtime checkpoint: bb92eed.
+Data checkpoint: 621d82d. Core runtime: bb92eed. Export checkpoint: b207ce1 (pushed).
 Preserve legacy/ and pre-existing ignored .claude/. Never reset/clean user work.
 
 The correct project is gocon-game-rpg/project.godot. Godot 4.7.2 Steam and matching
@@ -18,8 +18,8 @@ with that server. No unrelated project configuration was changed.
 
 Read ARCHITECTURE.md for ownership and COMPATIBILITY_MATRIX.md for coverage.
 All 13 maps load; source event commands drive the intro, dialogue/choices,
-trivia, QTE, RPS, projectile game, rewards and ending. The runtime suite has 205
-passing checks (now expanded to 215). The projectile game now wins by firing through the actual action
+trivia, QTE, RPS, projectile game, rewards and ending. The runtime suite has 241
+passing checks. The projectile game now wins by firing through the actual action
 event at moving targets, without supplying hit flags in the progression test.
 An earlier isolated win-result test still uses a fixture, explicitly documented.
 
@@ -36,13 +36,12 @@ The original MV browser runtime also launches for matching-state visual referenc
    results before making claims. Expand tests for remaining input/platform edges.
 3. Finish movement/passage fixtures, unsupported parameter diagnostics and event
    lifecycle edge cases. Check QTE failure/retry and repeated projectile attempts.
-4. Compare representative Map007, Map008 and ending screenshots to MV, including
-   camera/picture layers; only Map006 has been visually compared so far.
+4. Visual fixtures now cover Map007 QTE, Map008 projectiles, both ending pictures
+   and Map006 edge framing. Continue with dialogue/choices, weather and runtime motion.
 5. Verify Windows interactive gameplay and persistence; hardware gamepad/touch
    remains unverified. Avoid claiming hardware tests from simulated inputs.
 6. Keep docs truthful, rerun changed-system tests, rebuild exports after runtime edits,
-   commit scoped validated progress and retry feature-branch push. Prior push failed
-   with GitHub Internal Server Error, not an authentication denial.
+   commit scoped validated progress and push the feature branch. Push through b207ce1 succeeded.
 7. Do not mark the overall goal complete until acceptance evidence is sufficient.
 
 ## Commands

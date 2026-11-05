@@ -1,11 +1,11 @@
-# Test report — 2026-11-04
+# Test report — updated 2026-11-05
 
 ## Current results
 
 | Check | Actual result |
 |---|---|
 | Python content suite | 5 tests PASS |
-| Headless Godot runtime suite | 215 assertions PASS, zero engine errors |
+| Headless Godot runtime suite | 241 assertions PASS, zero engine errors |
 | Godot editor import / script parse | PASS with MCP addon disabled in this project |
 | Windows release export | Built with installed 4.7.2 templates |
 | Windows exported startup | PASS, headless title startup for 120 frames |
@@ -78,6 +78,17 @@ Ignored artifacts are intentionally not committed:
 - builds/web/export.log
 
 ## Remaining verification
+
+Latest additions: QTE decline and four early/wrong-key failures, cleanup and retry;
+MV camera zoom multiplier and edge clamp; walking animation cadence; snow timing,
+count and cleanup; checkpoint weather and inherited music restoration. Exported
+Web mouse directional/cancel controls, save and Continue pass. Selected QTE,
+projectile, ending, credits and edge artwork regions match reference screenshots
+within two RGB channel values. See artifacts/visual-parity/ and tools/visual_parity.py.
+
+The Windows export was launched through the computer-use skill. Window capture
+failed twice (FrameArrived/window capture timeouts), so no native UI input or visual
+success is claimed from that attempt. A later process query confirms it exited.
 
 Windows interactive gameplay and persistence; Map007/Map008/ending visual comparisons;
 QTE failure/retry edge cases; repeated projectile attempts; touch/gamepad hardware;

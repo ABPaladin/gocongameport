@@ -14,6 +14,7 @@ config/name="GoconGameRPG"
 run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
+run/main_scene.migration_validation="res://tests/presentation_tests.tscn"
 
 [autoload]
 
@@ -33,8 +34,6 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-; Keep the bundled plugin available, but do not bind its port while the MCP
-; connection belongs to the unrelated Cassette project.
 enabled=PackedStringArray()
 
 [physics]

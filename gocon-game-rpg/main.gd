@@ -2,6 +2,7 @@ extends Node
 var ui: CanvasLayer
 var menu: Control
 var hud: Label
+var timer_label: Label
 var virtual_controls: Control
 
 func _ready() -> void:
@@ -15,16 +16,16 @@ func _ready() -> void:
 	hud.add_theme_constant_override("outline_size", 4)
 	hud.add_theme_color_override("font_outline_color", Color(0,0,0,0.5))
 	ui.add_child(hud)
-	virtual_controls = Control.new()
+	timer_label = Label.new()
+	timer_label.position = Vector2(720,0)
+	timer_label.custom_minimum_size = Vector2(96,48)
+	timer_label.add_theme_font_override("font",load("res://assets/fonts/mplus-1m-regular.ttf"))
+	timer_label.add_theme_font_size_override("font_size",32)
+	timer_label.add_theme_constant_override("outline_size",4)
+	timer_label.add_theme_color_override("font_outline_color",Color(0,0,0,0.5))
+	ui.add_child(timer_label)
+	virtual_controls = load("res://ui/virtual_controls.gd").new()
 	ui.add_child(virtual_controls)
-	for entry in [["<", "ui_left", Vector2(20,500)], [">", "ui_right", Vector2(150,500)], ["^", "ui_up", Vector2(85,435)], ["v", "ui_down", Vector2(85,565)], ["OK", "interact", Vector2(720,500)]]:
-		var button = Button.new()
-		button.text = entry[0]
-		button.position = entry[2]
-		button.size = Vector2(60,55)
-		virtual_controls.add_child(button)
-		button.button_down.connect(Input.action_press.bind(entry[1]))
-		button.button_up.connect(Input.action_release.bind(entry[1]))
 	SceneManager.screen_changed.connect(rebuild_menu)
 	SaveManager.load_settings()
 	SceneManager.bind(self)
@@ -33,8 +34,10 @@ func _process(_delta: float) -> void:
 	hud.visible = SceneManager.screen == "game"
 	hud.text = "Stamp x %d" % GameState.item_count(1)
 	hud.modulate.a = 0.5 if DialogueManager.is_busy else 1.0
-	if GameState.timer_running: hud.text += "   %02d" % ceili(GameState.timer_frames / 60.0)
-	virtual_controls.visible = SceneManager.screen == "game" and not SceneManager.paused and GameState.virtual_visible and DisplayServer.is_touchscreen_available()
+	timer_label.visible = SceneManager.screen == "game" and GameState.timer_running
+	var seconds = int(GameState.timer_frames / 60)
+	timer_label.text = "%02d:%02d" % [int(seconds / 60),seconds % 60]
+	virtual_controls.visible = SceneManager.screen == "game" and not SceneManager.paused and not DialogueManager.is_busy and GameState.virtual_visible
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("open_menu"):

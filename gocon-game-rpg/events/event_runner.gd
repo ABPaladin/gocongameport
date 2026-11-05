@@ -218,7 +218,7 @@ func plugin_command(text: String) -> void:
 				GameState.virtual_visible = parts[1].to_lower() == "show"
 			else: fail("Unsupported virtual button command " + text)
 		"zoomout":
-			world.zoom_target = 1.0 / float(parts[1])
+			world.zoom_target = GameMap.DEFAULT_ZOOM / float(parts[1])
 			world.zoom_frames = int(parts[2])
 		"aivisibile":
 			# Original misspelling is an intentional compatibility no-op.

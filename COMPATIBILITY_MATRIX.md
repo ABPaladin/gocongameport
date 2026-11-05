@@ -3,7 +3,7 @@
 Source census: **35 distinct command IDs**, 13 maps, 156 events, 173 pages.
 The feasibility report's count of 36 was incorrect; the preserved source lists
 contain 35 including structural/continuation IDs. Runtime suite currently has
-215 assertions. Implementation, test coverage and visual parity are distinct.
+241 assertions. Implementation, test coverage and visual parity are distinct.
 
 | Codes | Implemented behavior | Automated evidence | Remaining parity checks |
 |---|---|---|---|
@@ -42,13 +42,13 @@ available but not a claim of universal RPG Maker compatibility.
 |---|---|---|
 | Kaus overlays and QuickStart | Native-size ground/foreground, startup switches 1–4 | Source flags + matched Map006 screenshot; original startup corrected |
 | Change Tile Size | 32px logical grid | All map planes preserved |
-| SRD CameraCore | 2× default, reciprocal ZoomOut with duration | Transfer continuation zoom test; settled intro framing matches |
+| SRD CameraCore | Default zoom divided by ZoomOut factor; unzoomed viewport edge clamping | Original runtime confirms ZoomOut 2 produces zoom 1; map-edge fixture matches |
 | YEP Region Restrictions | Region 1 NPC restriction | Directional, star-layer, occupancy and region fixtures pass |
 | YEP MessageCore | Speaker escape and face display with original skin/font | Intro screenshot; exact skin composition remains approximate |
 | SRD TranslationEngine | Full-message and choice-text lookup | Source dictionaries identical; English/Romanian/Russian intro screenshots reviewed |
 | SRD HUDMaker | Stamp count at original placement/font | Intro screenshot; timer shown alongside |
 | Action indicators | actionIcon comments → IconSet indicator | Implemented, no full-map screenshot tour |
-| VirtualButtons/MobileUI | Conditional touch controls, ending hide | State assertions; device testing pending |
+| VirtualButtons/MobileUI | Original artwork/coordinates on desktop and touch, dialogue/ending hide | Mouse movement/cancel tested in Web; physical touch device testing pending |
 | AIVISIBILE FALSE | Intentional no-op matching misspelled source | Source spelling preserved |
 | Custom menus/fullscreen | Native title/pause/settings/inventory UI | Web keyboard/menu/save/Continue exercised; layout is intentionally native |
 | RPG Maker save serializer | Versioned Godot checkpoint | File/corruption tests + browser persistence; no MV save importer |
@@ -57,7 +57,9 @@ available but not a claim of universal RPG Maker compatibility.
 All authored audio commands use pan=0. Nonzero stereo-pan compatibility is not
 implemented or claimed. QuestList (item 2) has no acquisition or effect commands
 in the source maps; its count is represented without inventing a quest subsystem.
-Weather and native menu styling are documented presentation differences.
+Snow now follows source drift, opacity lifetime, particle count, camera transform
+and dimmer strength. Exact random particle placement and circle rasterization are
+not claimed identical. Native menu styling remains a documented difference.
 
 ## Known source behavior retained
 

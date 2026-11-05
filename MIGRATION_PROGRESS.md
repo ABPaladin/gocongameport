@@ -8,8 +8,9 @@ Original legacy/ remains unchanged; pre-existing .claude/ remains untouched.
 
 - 621d82d — deterministic content preparation and integrity tests.
 - bb92eed — map runtime, bounded event VM and gameplay regression suite.
-- Next checkpoint — presentation/persistence fixes, original reward/ending validation,
-  Windows/Web exports and browser evidence; commit hash to be recorded after commit.
+- b207ce1 — presentation/persistence fixes, reward/ending validation and export workflows; pushed successfully.
+- Current phase — source camera multiplier and edge framing, screen-picture shader,
+  original virtual controls/timer, animation cadence, snow and checkpoint audio/weather.
 
 ## Implemented
 
@@ -23,7 +24,7 @@ F: source-driven QTE, RPS and projectile/timer game; no duplicate native control
 G: camera, picture IDs/blends, overlay startup, animations/balloons, audio.
 H: native title/pause/settings/inventory/touch UI and versioned checkpoint.
 I: deterministic source extraction, asset deduplication/provenance, reference tests.
-J: 215 runtime assertions and 5 Python tests passing; broader parity testing continues.
+J: 241 runtime assertions and 5 Python tests passing; broader parity testing continues.
 K: Windows and Web exports built. Web intro/movement/save/reload/Continue tested.
 Windows actual exported title startup tested headless.
 
@@ -47,16 +48,19 @@ See COMPATIBILITY_MATRIX.md and TEST_REPORT.md for specific limits.
 
 ## Git / delivery
 
-Push after bb92eed was attempted and rejected by GitHub Internal Server Error
-(request 5F8B:BDDAC:4E51A13:6D4966F:6AEB098D). Retry feature branch push.
+The initial push failed with a GitHub server error. The retry succeeded:
+b207ce1 is on origin/feature/godot-complete-port.
 Do not push main or force push. Builds/artifacts/.test-deps are ignored.
-Two pre-existing tracked pyc files should be removed from the index without
-deleting local source or changing legacy.
+Two pre-existing tracked pyc files were removed from the index in b207ce1.
 
 ## Next tasks
 
 Romanian/Russian intro screenshots reviewed: both display the selected translation.
-Add remaining minigame retry/lifecycle tests and broader visual comparisons.
+QTE decline, all early/wrong direction failures, cleanup and retry now pass.
+Matching-state visual fixtures cover QTE, projectile field, ending, credits and
+map-edge framing. Selected artwork regions match within two channel values.
+Windows export launched via computer-use, but capture failed twice; interactive
+Windows verification remains open. The launched process is no longer running.
 Exercise Windows gameplay/persistence and remaining input/platform behavior.
 Rebuild after runtime changes, update evidence, commit and push validated progress.
 The overall migration is not yet declared complete.

@@ -33,6 +33,7 @@ python -B tools/godot_check.py res://tests/runtime_tests.tscn
 python -B tools/build_exports.py
 python -B tools/export_smoke.py
 python -B tools/browser_smoke.py
+python -B tools/visual_parity.py
 ```
 
 Set `GODOT_BIN` if Godot is not at the Steam path used by tools/godot_check.py.
@@ -42,6 +43,9 @@ Builds are ignored: `builds/windows/GoconGame.exe` and `builds/web/index.html`.
 Run the EXE directly; serve Web over HTTP, for example
 `python -m http.server 8000 --directory builds/web`, then open localhost:8000.
 Opening the HTML with a file URL is unsupported.
+
+The visual test builds a separate Web Validation preset with a fixture main scene.
+Normal Windows/Web presets exclude tests and retain the normal title flow.
 
 ## Content and architecture
 

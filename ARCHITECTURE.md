@@ -47,7 +47,8 @@ stretched into tile dimensions. Invisible tile flags determine four-direction
 passage, including reverse-direction checks, boundaries, events and through flags.
 Region 1 restricts NPC movement. Rendering uses nearest filtering and native
 character frames derived from 3×4 or 12×8 sheet layouts, including exceptional sizes.
-Default zoom is 2; the used ZoomOut command applies reciprocal zoom over its duration.
+Default zoom is 2; ZoomOut divides that default by its factor over the duration.
+Map edge clamping uses MV's unzoomed viewport before camera scaling.
 
 Pictures occupy a screen-space CanvasLayer. Blend 3 uses a screen-blend shader.
 The source typo AIVISIBILE remains a no-op. No unrelated PSX effects are enabled.
@@ -55,7 +56,8 @@ The source typo AIVISIBILE remains a no-op. No unrelated PSX effects are enabled
 ## Checkpoints
 
 Schema version 1 stores map/player position and facing, switch/variable/self-switch
-dictionaries, item counts, language, current-map event positions/facing, and zoom.
+dictionaries, item counts, language, current-map event positions/facing, zoom,
+inherited BGM/playback position, and weather power/transition state.
 Writes use a temporary file then rename. Corrupt or incompatible data is rejected.
 Settings are separate. A checkpoint normalizes interpolation and restarts autonomous
 event routes; it does not serialize active interpreter stacks or arbitrary pictures.

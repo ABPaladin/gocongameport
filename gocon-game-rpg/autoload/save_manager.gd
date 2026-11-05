@@ -20,6 +20,9 @@ func save_checkpoint() -> bool:
 	for event in SceneManager.current_map.events:
 		data.events[str(event.event_id)] = {"x":event.tile.x,"y":event.tile.y,"direction":event.direction}
 	data.zoom = SceneManager.current_map.camera.zoom.x
+	data.bgm = AudioManager.current_bgm_data.duplicate()
+	data.bgm_position = AudioManager.bgm.get_playback_position() if AudioManager.bgm.playing else 0.0
+	data.weather = {"type":PictureManager.weather_type,"power":PictureManager.weather_power,"target":PictureManager.weather_target,"frames":PictureManager.weather_frames}
 	var file = FileAccess.open(save_path + ".tmp", FileAccess.WRITE)
 	if file == null:
 		last_error = "Cannot write save: %s" % FileAccess.get_open_error()
@@ -63,6 +66,22 @@ func read_save() -> Dictionary:
 	if data.has("zoom"):
 		if not data.zoom is float and not data.zoom is int: return {}
 		if float(data.zoom) <= 0 or float(data.zoom) > 10: return {}
+	if data.has("bgm"):
+		if not data.bgm is Dictionary: return {}
+		var name = data.bgm.get("name", "")
+		if not name is String: return {}
+		if name != "" and not GameData.assets.has("bgm/" + name): return {}
+		for key in ["volume","pitch","pan"]:
+			if data.bgm.has(key) and not data.bgm[key] is float and not data.bgm[key] is int: return {}
+	if data.has("bgm_position"):
+		if not data.bgm_position is float and not data.bgm_position is int: return {}
+		if not is_finite(float(data.bgm_position)) or float(data.bgm_position) < 0: return {}
+	if data.has("weather"):
+		if not data.weather is Dictionary or data.weather.get("type") not in ["none","snow","rain","storm"]: return {}
+		for key in ["power","target","frames"]:
+			if not data.weather.get(key) is float and not data.weather.get(key) is int: return {}
+			if not is_finite(float(data.weather[key])) or float(data.weather[key]) < 0: return {}
+		if float(data.weather.power) > 9 or float(data.weather.target) > 9: return {}
 	return data
 
 func load_checkpoint() -> bool:
@@ -83,6 +102,14 @@ func load_checkpoint() -> bool:
 		var saved: Dictionary = data.events[key]
 		if event != null: event.locate(Vector2i(int(saved.x),int(saved.y)),int(saved.direction))
 	SceneManager.current_map.camera.zoom = Vector2.ONE * float(data.get("zoom",2))
+	if data.has("bgm"):
+		AudioManager.play_bgm(data.bgm)
+		if AudioManager.bgm.playing: AudioManager.bgm.seek(float(data.get("bgm_position",0)))
+	if data.has("weather"):
+		PictureManager.weather_type = str(data.weather.type)
+		PictureManager.weather_power = float(data.weather.power)
+		PictureManager.weather_target = float(data.weather.target)
+		PictureManager.weather_frames = int(data.weather.frames)
 	return true
 
 func save_settings() -> void:

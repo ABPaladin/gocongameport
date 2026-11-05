@@ -82,6 +82,12 @@ func run() -> void:
 	var world = SceneManager.current_map
 	world.set_physics_process(false)
 	check(world.map_id == 6 and world.player.tile == Vector2i(14,41), "New game map/start")
+	check(world.camera_center(Vector2(112,112)) == Vector2(408,312),"MV camera uses unzoomed viewport at map boundary")
+	world.player.step(8)
+	for tick in 10: world.player.tick()
+	check(world.player.pattern == 2,"Walking animation uses MV 1.5 counter increment")
+	for tick in 22: world.player.tick()
+	check(world.player.pattern == 1 and not world.player.moving(),"Walking animation settles to original frame")
 	for id in range(1,5): check(GameState.get_switch(id), "Overlay startup switch %d" % id)
 	for id in range(1,14):
 		SceneManager.load_map(id, Vector2i(14,14))
@@ -117,6 +123,11 @@ func run() -> void:
 	execute([command(235,[1]),command(124,[0,20]),command(0)])
 	check(not PictureManager.pictures.has(1) and GameState.timer_frames == 1200, "Erase and timer start")
 	GameState.timer_running = false
+	PictureManager.weather(["snow",9,60,false])
+	for tick in 60: PictureManager._physics_process(1.0/60)
+	check(is_equal_approx(PictureManager.weather_power,9) and PictureManager.particles.size() == 90,"Source snow reaches power and particle count after 60 ticks")
+	PictureManager.clear()
+	check(PictureManager.particles.is_empty() and PictureManager.weather_frames == 0,"New game/picture clear cancels weather transition")
 	for language in ["English","Romanian","Russian"]:
 		GameState.language = language
 		var source = GameData.translations.msg.keys()[0]
@@ -150,7 +161,7 @@ func run() -> void:
 	world.set_physics_process(false)
 	for tick in 35: world._physics_process(1.0 / 60)
 	check(world.map_id == 7 and GameState.get_self_switch(6,12,"D"), "Transfer preserves source continuation identity")
-	check(world.camera.zoom.is_equal_approx(Vector2(0.5,0.5)), "Camera command after transfer")
+	check(world.camera.zoom.is_equal_approx(Vector2.ONE), "Camera command uses reciprocal factor times default zoom")
 	# Actual randomized rock-paper-scissors: repeat seeds until all outcomes occur.
 	var outcomes = {}
 	for seed_value in range(20):
@@ -192,7 +203,18 @@ func run() -> void:
 	world = SceneManager.current_map
 	world.set_physics_process(false)
 	var qte = world.character(2,null)
+	DialogueManager.automated_choice = 1
+	execute(qte.command_list(),qte)
+	check(not GameState.get_self_switch(7,2,"A") and PictureManager.pictures.is_empty(),"QTE decline leaves no active state")
 	DialogueManager.automated_choice = 0
+	for action in ["ui_up","ui_right","ui_left","ui_down"]:
+		execute(qte.command_list(),qte)
+		Input.action_press(action)
+		world._physics_process(1.0 / 60)
+		Input.action_release(action)
+		for tick in 3: world._physics_process(1.0 / 60)
+		check(qte.page_index == 0 and not GameState.get_self_switch(7,2,"A"),"QTE failure resets page: " + action)
+		check(GameState.item_count(1) == 0 and PictureManager.pictures.is_empty(),"QTE failure clears pictures without reward: " + action)
 	execute(qte.command_list(),qte)
 	qte.refresh_page()
 	check(qte.page_index == 1, "QTE switches to active parallel page")
@@ -215,10 +237,15 @@ func run() -> void:
 	world.player.locate(Vector2i(16,28))
 	GameState.player_tile = world.player.tile
 	SaveManager.save_path = "user://migration_test_checkpoint.json"
+	PictureManager.weather(["snow",9,0,false])
+	AudioManager.play_bgm(GameData.maps[6].bgm)
+	var saved_bgm = AudioManager.current_bgm
 	check(SaveManager.save_checkpoint(), "Checkpoint writes")
 	GameState.gain_item(1,5)
 	check(SaveManager.load_checkpoint(), "Checkpoint loads")
 	check(GameState.item_count(1) == 1 and GameState.get_self_switch(7,2,"D"), "Checkpoint restores inventory and event pages")
+	check(PictureManager.weather_type == "snow" and PictureManager.weather_power == 9,"Checkpoint restores weather")
+	check(AudioManager.current_bgm == saved_bgm,"Checkpoint restores inherited BGM")
 	check(SaveManager.save_checkpoint(), "Checkpoint replaces existing save atomically")
 	var fixture = FileAccess.open(SaveManager.save_path,FileAccess.WRITE)
 	fixture.store_string("{broken")

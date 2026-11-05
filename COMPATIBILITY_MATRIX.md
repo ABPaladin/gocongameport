@@ -3,7 +3,7 @@
 Source census: **35 distinct command IDs**, 13 maps, 156 events, 173 pages.
 The feasibility report's count of 36 was incorrect; the preserved source lists
 contain 35 including structural/continuation IDs. Runtime suite currently has
-241 assertions. Implementation, test coverage and visual parity are distinct.
+244 assertions. Implementation, test coverage and visual parity are distinct.
 
 | Codes | Implemented behavior | Automated evidence | Remaining parity checks |
 |---|---|---|---|

@@ -412,9 +412,11 @@ func _reset_state() -> void:
 	_nameplate_label.text = ""
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not _is_open:
 		return
+	# A real touch also generates an emulated mouse event; consume it only once.
+	if event is InputEventMouseButton and event.device == -1: return
 	if not event.is_action_pressed("interact") and not (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT) and not (event is InputEventScreenTouch and event.pressed):
 		return
 	get_viewport().set_input_as_handled()

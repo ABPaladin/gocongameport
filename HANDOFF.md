@@ -18,7 +18,7 @@ with that server. No unrelated project configuration was changed.
 
 Read ARCHITECTURE.md for ownership and COMPATIBILITY_MATRIX.md for coverage.
 All 13 maps load; source event commands drive the intro, dialogue/choices,
-trivia, QTE, RPS, projectile game, rewards and ending. The runtime suite has 241
+trivia, QTE, RPS, projectile game, rewards and ending. The runtime suite has 244
 passing checks. The projectile game now wins by firing through the actual action
 event at moving targets, without supplying hit flags in the progression test.
 An earlier isolated win-result test still uses a fixture, explicitly documented.
@@ -29,6 +29,12 @@ reload and Continue. Screenshots and JSON evidence are ignored under artifacts/b
 The original MV browser runtime also launches for matching-state visual references.
 
 ## Exact continuation
+
+Latest input update: run tools/touch_smoke.py for actual exported browser touch
+events and scaling. The checkpoint JSON verifies intro completion and movement.
+Simulated gamepad mappings are in runtime_tests.gd. Touch dialogue uses _input
+because GUI controls consumed taps before _unhandled_input. Source ALOE disables
+map-tap navigation, now respected. Next prioritize native Windows gameplay evidence.
 
 1. Run git status/log and read MIGRATION_PROGRESS.md and TEST_REPORT.md; do not repeat
    completed migration or create a second project.

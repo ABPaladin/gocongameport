@@ -71,6 +71,32 @@ func execute(list: Array, event = null, ticks: int = 1000):
 
 func run() -> void:
 	test_passage()
+	var pad_button = InputEventJoypadButton.new()
+	pad_button.button_index = JOY_BUTTON_A
+	pad_button.pressed = true
+	Input.parse_input_event(pad_button.duplicate())
+	Input.flush_buffered_events()
+	check(Input.is_action_pressed("interact"),"Gamepad A maps to interaction")
+	pad_button.pressed = false
+	Input.parse_input_event(pad_button.duplicate())
+	Input.flush_buffered_events()
+	pad_button.button_index = JOY_BUTTON_DPAD_LEFT
+	pad_button.pressed = true
+	Input.parse_input_event(pad_button.duplicate())
+	Input.flush_buffered_events()
+	check(Input.is_action_pressed("ui_left"),"Gamepad D-pad maps to movement")
+	pad_button.pressed = false
+	Input.parse_input_event(pad_button.duplicate())
+	Input.flush_buffered_events()
+	var stick = InputEventJoypadMotion.new()
+	stick.axis = JOY_AXIS_LEFT_X
+	stick.axis_value = -1.0
+	Input.parse_input_event(stick.duplicate())
+	Input.flush_buffered_events()
+	check(Input.is_action_pressed("ui_left"),"Gamepad analog stick maps to movement")
+	stick.axis_value = 0
+	Input.parse_input_event(stick.duplicate())
+	Input.flush_buffered_events()
 	SceneManager.transitions_enabled = false
 	AudioManager.playback_enabled = false
 	DialogueManager.automation = true

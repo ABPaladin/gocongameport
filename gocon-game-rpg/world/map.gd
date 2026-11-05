@@ -193,11 +193,6 @@ func path_direction(start: Vector2i, goal: Vector2i) -> int:
 	player.tile = original
 	return 0
 
-func _unhandled_input(event: InputEvent) -> void:
-	if input_locked(): return
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		player.click_target = Vector2i((get_global_mouse_position() / 32).floor())
-
 func cancel_events() -> void:
 	transfer_pending = true
 	if foreground_runner != null: foreground_runner.cancel()

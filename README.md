@@ -14,7 +14,8 @@ Open `gocon-game-rpg/project.godot` in Godot 4.7.2 and press F6 on Main.tscn,
 or F5. The installed version used for validation is 4.7.2.stable.steam.ed1daf0bf.
 Choose New Game; the original Map006 introduction starts at (14,41).
 Arrow keys move; Shift dashes where permitted; Enter/Space/Z interact;
-Escape/X opens the pause menu. Click-to-move and touch buttons are implemented.
+Escape/X opens the pause menu. Original mouse/touch directional buttons are implemented;
+map-tap movement is disabled as configured by the source ALOE plugin.
 Gamepad bindings exist but hardware verification remains pending.
 
 The menu exposes English/Romanian/Russian, music/sound volume, fullscreen,
@@ -34,6 +35,7 @@ python -B tools/build_exports.py
 python -B tools/export_smoke.py
 python -B tools/browser_smoke.py
 python -B tools/visual_parity.py
+python -B tools/touch_smoke.py
 ```
 
 Set `GODOT_BIN` if Godot is not at the Steam path used by tools/godot_check.py.

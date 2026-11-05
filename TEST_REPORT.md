@@ -5,7 +5,7 @@
 | Check | Actual result |
 |---|---|
 | Python content suite | 5 tests PASS |
-| Headless Godot runtime suite | 241 assertions PASS, zero engine errors |
+| Headless Godot runtime suite | 244 assertions PASS, zero engine errors |
 | Godot editor import / script parse | PASS with MCP addon disabled in this project |
 | Windows release export | Built with installed 4.7.2 templates |
 | Windows exported startup | PASS, headless title startup for 120 frames |
@@ -78,6 +78,17 @@ Ignored artifacts are intentionally not committed:
 - builds/web/export.log
 
 ## Remaining verification
+
+Touch/export update: tools/touch_smoke.py passes against the release Web build.
+Browser touch events advance the intro, hold the original directional control,
+open pause and save. IndexedDB checkpoint contents confirm Map006 (12,39) and
+intro self-switch A. Landscape 1280x720 and portrait 390x844 screenshots preserve
+aspect ratio. Evidence: artifacts/touch/results.json and PNGs. This is emulated
+browser touch, not physical phone testing. The test exposed GUI consumption of
+dialogue taps; the message window now handles input before GUI dispatch and ignores
+duplicate emulated mouse events. Map-tap movement is disabled as in ALOE's source
+configuration. Simulated Godot joypad A, D-pad and analog events pass after input
+buffer flushing; no hardware gamepad claim is made.
 
 Latest additions: QTE decline and four early/wrong-key failures, cleanup and retry;
 MV camera zoom multiplier and edge clamp; walking animation cadence; snow timing,

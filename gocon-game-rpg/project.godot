@@ -15,6 +15,7 @@ run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 run/main_scene.migration_validation="res://tests/presentation_tests.tscn"
+run/main_scene.migration_native_validation="res://tests/native_ui_tests.tscn"
 
 [autoload]
 

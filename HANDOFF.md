@@ -23,7 +23,11 @@ passing checks. The projectile game now wins by firing through the actual action
 event at moving targets, without supplying hit flags in the progression test.
 An earlier isolated win-result test still uses a fixture, explicitly documented.
 
-Both Windows and Web exports build. Windows title startup has been tested headless.
+Both Windows and Web exports build. Windows release title startup passes headless.
+The Windows Validation export now passes normal rendered title/intro/movement,
+pause/save/Continue and restoration after a second process launch. Evidence lives
+under builds/windows-validation (JSON, logs and inspected PNGs); run
+tools/native_ui_smoke.py. Input is simulated inside Godot, not a hardware test.
 The exported Web build has been driven through intro, movement, pause, checkpoint,
 reload and Continue. Screenshots and JSON evidence are ignored under artifacts/browser.
 The original MV browser runtime also launches for matching-state visual references.
@@ -34,7 +38,8 @@ Latest input update: run tools/touch_smoke.py for actual exported browser touch
 events and scaling. The checkpoint JSON verifies intro completion and movement.
 Simulated gamepad mappings are in runtime_tests.gd. Touch dialogue uses _input
 because GUI controls consumed taps before _unhandled_input. Source ALOE disables
-map-tap navigation, now respected. Next prioritize native Windows gameplay evidence.
+map-tap navigation, now respected. Native Windows gameplay evidence is now recorded;
+next prioritize dialogue/choice fidelity and the final acceptance audit.
 
 1. Run git status/log and read MIGRATION_PROGRESS.md and TEST_REPORT.md; do not repeat
    completed migration or create a second project.
@@ -44,8 +49,8 @@ map-tap navigation, now respected. Next prioritize native Windows gameplay evide
    lifecycle edge cases. Check QTE failure/retry and repeated projectile attempts.
 4. Visual fixtures now cover Map007 QTE, Map008 projectiles, both ending pictures
    and Map006 edge framing. Continue with dialogue/choices, weather and runtime motion.
-5. Verify Windows interactive gameplay and persistence; hardware gamepad/touch
-   remains unverified. Avoid claiming hardware tests from simulated inputs.
+5. Windows rendered gameplay and cross-process persistence passed. Hardware
+   gamepad/touch remains unverified. Avoid hardware claims from simulated inputs.
 6. Keep docs truthful, rerun changed-system tests, rebuild exports after runtime edits,
    commit scoped validated progress and push the feature branch. Push through b207ce1 succeeded.
 7. Do not mark the overall goal complete until acceptance evidence is sufficient.

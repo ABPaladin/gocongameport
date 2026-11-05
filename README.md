@@ -36,6 +36,7 @@ python -B tools/export_smoke.py
 python -B tools/browser_smoke.py
 python -B tools/visual_parity.py
 python -B tools/touch_smoke.py
+python -B tools/native_ui_smoke.py
 ```
 
 Set `GODOT_BIN` if Godot is not at the Steam path used by tools/godot_check.py.
@@ -48,6 +49,9 @@ Opening the HTML with a file URL is unsupported.
 
 The visual test builds a separate Web Validation preset with a fixture main scene.
 Normal Windows/Web presets exclude tests and retain the normal title flow.
+The Windows Validation preset similarly drives the normal UI with simulated Godot
+key events and a real renderer, then restarts to verify a dedicated test checkpoint.
+It does not overwrite the player's save or substitute for physical-device testing.
 
 ## Content and architecture
 

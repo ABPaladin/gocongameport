@@ -105,5 +105,16 @@ Windows interactive gameplay and persistence; Map007/Map008/ending visual compar
 QTE failure/retry edge cases; repeated projectile attempts; touch/gamepad hardware;
 every translated message layout; real-time behavior across frame rates and resizing;
 listening/fade quality; full uninterrupted end-to-end navigation.
+Windows follow-up (2026-11-05): tools/native_ui_smoke.py builds a separate Windows
+Validation export and runs it with the NVIDIA RTX 4070 Laptop GPU renderer.
+Simulated Godot key events drive New Game, original intro, movement, pause and Save.
+Continue restores Map006 (12,39) and intro self-switch A both within the first
+process and after a second process launch. Both JSON reports have zero failures;
+logs contain no ERROR entries. Saved and continued screenshots were inspected.
+Evidence: builds/windows-validation/{gameplay,restart}.json/.log and PNGs.
+The test uses a separate checkpoint filename and removes it afterward. This closes
+the rendered Windows UI/persistence gap above for the tested route; physical OS
+input and an uninterrupted full-game journey remain unverified.
+
 No original MV save import exists. Licensing is not established by these tests.
 No claim is made that all migration acceptance criteria are complete.

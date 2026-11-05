@@ -26,7 +26,8 @@ H: native title/pause/settings/inventory/touch UI and versioned checkpoint.
 I: deterministic source extraction, asset deduplication/provenance, reference tests.
 J: 244 runtime assertions and 5 Python tests passing; broader parity testing continues.
 K: Windows and Web exports built. Web intro/movement/save/reload/Continue tested.
-Windows actual exported title startup tested headless.
+Windows release title startup tested headless; Windows Validation export also
+passes rendered New Game, intro, movement, pause, save, Continue and process restart.
 
 Implementation status does not imply complete behavioral/visual parity.
 See COMPATIBILITY_MATRIX.md and TEST_REPORT.md for specific limits.
@@ -69,3 +70,15 @@ Windows verification remains open. The launched process is no longer running.
 Exercise Windows gameplay/persistence and remaining input/platform behavior.
 Rebuild after runtime changes, update evidence, commit and push validated progress.
 The overall migration is not yet declared complete.
+
+## Windows rendered validation checkpoint (2026-11-05)
+
+- 9276a89 is pushed: touch dialogue/input regression fixes.
+- Added native_ui_tests.gd/.tscn, tools/native_ui_smoke.py and an isolated Windows
+  Validation preset/main-scene override. Production presets still exclude tests.
+- Both gameplay.json and restart.json report zero failures on the NVIDIA RTX 4070
+  Laptop GPU. Continue restores Map006 (12,39), including intro self-switch A.
+- Reviewed saved.png and continued_after_restart.png under builds/windows-validation.
+- This uses simulated Godot key events in a rendered export, not OS input injection
+  or physical keyboard/gamepad verification. The dedicated test save is removed.
+- Current next task: dialogue/choice fidelity and complete acceptance audit.
